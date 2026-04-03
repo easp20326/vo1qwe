@@ -964,11 +964,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   isDataReady = true;
   
   // 기존 세션 확인 및 자동 로그인
-  const savedUser = checkSession();
-  if (savedUser) {
-    currentUser = savedUser;
-    initApp();
-  }
+  // 자동 로그인 없음 — 항상 로그인 화면부터 시작
+  clearSession();
 });
 
 
@@ -1008,10 +1005,10 @@ async function doLogin(){
     localStorage.removeItem('_login_attempts');
     localStorage.removeItem('_login_locktime');
     currentUser = {...user};
-    // 비밀번호 관련 필드 모두 제거 후 세션 저장
+    // 비밀번호 관련 필드 모두 제거
     delete currentUser.password;
     delete currentUser.password_hash;
-    saveSession(currentUser);
+    // 세션 저장 안 함 — 브라우저 닫으면 무조건 재로그인
     initApp();
   } else {
     loginAttempts++;
@@ -1058,13 +1055,10 @@ function parseNumber(str) {
 }
 
 function doLogout(){
-  currentUser=null;
-  clearSession();  // 세션 삭제
-  document.getElementById('app').classList.remove('logged-in');
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('loginId').value='';
-  document.getElementById('loginPw').value='';
-  showToast('로그아웃되었습니다.','info');
+  currentUser = null;
+  clearSession();
+  // 페이지 새로고침으로 완전 초기화
+  window.location.reload();
 }
 
 function initApp(){
