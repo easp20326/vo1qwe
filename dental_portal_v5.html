@@ -184,31 +184,30 @@ button,input,select,textarea{font-family:inherit;}
 
 /* ══ 대시보드 스탯 카드 ══ */
 .stat-card{
-  border-radius:var(--radius);padding:20px 22px;
+  border-radius:var(--radius-sm);padding:14px 16px;
   position:relative;cursor:pointer;
   background:var(--surface);
   border:1px solid var(--border);
-  border-left:4px solid var(--border);
-  transition:all var(--transition);
-  box-shadow:var(--shadow-sm);
+  border-top:3px solid var(--border);
+  transition:border-color var(--transition),box-shadow var(--transition);
 }
-.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
-.stat-card-icon{font-size:18px;margin-bottom:8px;opacity:.7;}
+.stat-card:hover{box-shadow:var(--shadow);}
+.stat-card-icon{display:none;}
 .stat-card-label{
-  font-size:11px;font-weight:600;
-  color:var(--text3);margin-bottom:6px;
+  font-size:11px;font-weight:500;
+  color:var(--text3);margin-bottom:4px;
 }
-.stat-card-value{font-size:24px;font-weight:700;line-height:1.1;color:var(--text);}
-.stat-card-sub{font-size:11px;margin-top:4px;color:var(--text3);}
-.stat-c-yellow{border-left-color:#f59e0b;} .stat-c-yellow .stat-card-value{color:#92400e;}
-.stat-c-purple{border-left-color:#8b5cf6;} .stat-c-purple .stat-card-value{color:#5b21b6;}
-.stat-c-orange{border-left-color:#f97316;} .stat-c-orange .stat-card-value{color:#9a3412;}
-.stat-c-sky{border-left-color:#0ea5e9;}    .stat-c-sky .stat-card-value{color:#075985;}
-.stat-c-green{border-left-color:#16a34a;}  .stat-c-green .stat-card-value{color:#14532d;}
-.stat-c-red{border-left-color:#dc2626;}    .stat-c-red .stat-card-value{color:#7f1d1d;}
-.stat-c-teal{border-left-color:#0d9488;}   .stat-c-teal .stat-card-value{color:#134e4a;}
-.stat-c-blue{border-left-color:#2563eb;}   .stat-c-blue .stat-card-value{color:#1e3a8a;}
-.stat-c-navy{border-left-color:#334155;}   .stat-c-navy .stat-card-value{color:#0f172a;}
+.stat-card-value{font-size:22px;font-weight:700;line-height:1.1;color:var(--text);}
+.stat-card-sub{font-size:11px;margin-top:3px;color:var(--text3);}
+.stat-c-yellow{border-top-color:#f59e0b;} .stat-c-yellow .stat-card-value{color:#92400e;}
+.stat-c-purple{border-top-color:#8b5cf6;} .stat-c-purple .stat-card-value{color:#5b21b6;}
+.stat-c-orange{border-top-color:#f97316;} .stat-c-orange .stat-card-value{color:#9a3412;}
+.stat-c-sky{border-top-color:#0ea5e9;}    .stat-c-sky .stat-card-value{color:#075985;}
+.stat-c-green{border-top-color:#16a34a;}  .stat-c-green .stat-card-value{color:#14532d;}
+.stat-c-red{border-top-color:#dc2626;}    .stat-c-red .stat-card-value{color:#7f1d1d;}
+.stat-c-teal{border-top-color:#0d9488;}   .stat-c-teal .stat-card-value{color:#134e4a;}
+.stat-c-blue{border-top-color:#2563eb;}   .stat-c-blue .stat-card-value{color:#1e3a8a;}
+.stat-c-navy{border-top-color:#334155;}   .stat-c-navy .stat-card-value{color:#0f172a;}
 
 /* ══ 버튼 ══ */
 .btn{
@@ -374,6 +373,35 @@ textarea.input{resize:vertical;min-height:80px;}
 
 /* ══ 퀵 필터 ══ */
 .qf-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.filter-search{
+  flex:1;min-width:220px;position:relative;
+}
+.filter-search .search-icon{
+  position:absolute;left:11px;top:50%;transform:translateY(-50%);
+  font-size:14px;color:var(--text3);pointer-events:none;
+}
+.filter-search input{
+  width:100%;padding:9px 12px 9px 34px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:13px;outline:none;background:var(--surface);
+  transition:border-color var(--transition);
+}
+.filter-search input:focus{border-color:var(--primary);}
+.filter-select{
+  padding:9px 12px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);font-size:13px;
+  background:var(--surface);color:var(--text);outline:none;
+  cursor:pointer;
+}
+.quick-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.qf-btn .cnt{
+  display:inline-block;
+  background:rgba(0,0,0,.07);
+  border-radius:10px;padding:1px 6px;
+  font-size:10px;font-weight:700;margin-left:3px;
+}
+.qf-btn.active .cnt{background:rgba(255,255,255,.25);}
 .qf-btn{
   padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;
   border:1.5px solid var(--border);background:var(--surface);
@@ -568,7 +596,7 @@ textarea.input{resize:vertical;min-height:80px;}
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
 
 /* ══ 스탯 섹션 ══ */
-.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-bottom:24px;}
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
 
 /* ══ 반응형 ══ */
 @media(max-width:900px){
@@ -1356,7 +1384,7 @@ function renderDashboard(){
   const total=cases.length;
   
   document.getElementById('pageContent').innerHTML=`
-  <div class="stat-hero stat-hero-5" style="margin-bottom:16px;">
+  <div class="stat-row">
     <div class="stat-card stat-c-yellow" onclick="setDashFilter('working')">
       
       <div class="stat-card-label">접수중</div>
