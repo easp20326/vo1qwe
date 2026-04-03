@@ -496,77 +496,115 @@ textarea.input{resize:vertical;min-height:80px;}
 
 /* ══ 로그인 화면 ══ */
 .login-screen{
-  position:fixed;inset:0;
-  background:#0f172a;
+  position:fixed;inset:0;background:#0f172a;
   display:flex;align-items:center;justify-content:center;
-  z-index:2000;
+  z-index:2000;padding:20px;
 }
-.login-particles{position:absolute;inset:0;pointer-events:none;}
-.particle{
-  position:absolute;font-size:22px;opacity:.05;
-  animation:particleFloat 18s infinite ease-in-out;
+.login-split{
+  display:flex;width:100%;max-width:860px;height:540px;
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.5);
+  animation:slideUp .45s ease-out;
 }
-@keyframes particleFloat{
-  0%,100%{transform:translateY(0) rotate(0deg);}
-  33%{transform:translateY(-18px) rotate(5deg);}
-  66%{transform:translateY(10px) rotate(-5deg);}
+/* ── 왼쪽 패널 ── */
+.login-left{
+  width:52%;background:#0f172a;
+  border-right:1px solid rgba(255,255,255,.07);
+  padding:40px 36px;display:flex;flex-direction:column;
+  justify-content:space-between;position:relative;overflow:hidden;
 }
-.login-box{
-  background:#fff;border-radius:24px;padding:48px 42px;
-  width:100%;max-width:420px;
-  box-shadow:0 32px 64px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.08);
-  text-align:center;position:relative;animation:slideUp .5s ease-out;
+.login-left::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:280px;height:280px;border-radius:50%;
+  background:rgba(96,165,250,.06);
 }
-.login-brand{
-  width:64px;height:64px;
-  background:var(--primary);
-  border-radius:14px;display:flex;align-items:center;justify-content:center;
-  margin:0 auto 18px;font-size:28px;
+.login-left::after{
+  content:'';position:absolute;bottom:-60px;left:-60px;
+  width:220px;height:220px;border-radius:50%;
+  background:rgba(96,165,250,.04);
 }
-.login-title{font-size:20px;font-weight:700;margin-bottom:4px;color:var(--navy);}
-.login-sub{font-size:12px;color:var(--text3);margin-bottom:28px;font-weight:500;}
+.ll-top{position:relative;z-index:1;}
+.ll-logo{font-size:26px;font-weight:900;letter-spacing:-1px;color:#fff;margin-bottom:3px;}
+.ll-logo span{color:#60a5fa;}
+.ll-eng{font-size:9px;letter-spacing:2.5px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:26px;}
+.ll-tagline{font-size:16px;font-weight:700;color:rgba(255,255,255,.9);line-height:1.55;margin-bottom:8px;}
+.ll-desc{font-size:11px;color:rgba(255,255,255,.45);line-height:1.75;}
+.ll-notice{
+  position:relative;z-index:1;
+  background:rgba(96,165,250,.1);
+  border:1px solid rgba(96,165,250,.2);
+  border-radius:12px;padding:16px 18px;
+}
+.ll-notice-head{
+  display:flex;align-items:center;gap:6px;
+  font-size:9px;letter-spacing:1.5px;color:#60a5fa;
+  font-weight:700;text-transform:uppercase;margin-bottom:8px;
+}
+.ll-notice-dot{width:6px;height:6px;border-radius:50%;background:#60a5fa;}
+.ll-notice-text{font-size:12px;color:rgba(255,255,255,.75);line-height:1.7;white-space:pre-line;}
+.ll-notice-date{font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;}
+.ll-notice-empty{font-size:11px;color:rgba(255,255,255,.25);font-style:italic;}
+.ll-bottom{position:relative;z-index:1;}
+.ll-info-row{display:flex;gap:8px;font-size:10px;color:rgba(255,255,255,.4);margin-bottom:3px;}
+.ll-info-row span:first-child{color:rgba(255,255,255,.2);min-width:26px;}
+.ll-version{margin-top:10px;font-size:9px;color:rgba(255,255,255,.15);letter-spacing:0.5px;}
+/* ── 오른쪽 패널 ── */
+.login-right{
+  width:48%;background:#fff;
+  padding:44px 40px;display:flex;flex-direction:column;justify-content:center;
+}
+.lr-badge{
+  display:inline-block;background:#eff6ff;color:#1d4ed8;
+  font-size:10px;font-weight:700;padding:3px 10px;
+  border-radius:20px;margin-bottom:18px;letter-spacing:0.3px;
+}
+.lr-title{font-size:22px;font-weight:900;color:#0f172a;margin-bottom:4px;}
+.lr-sub{font-size:12px;color:#94a3b8;margin-bottom:28px;}
 .login-form{text-align:left;}
 .login-input-wrap{position:relative;}
 .login-input-wrap .icon{
   position:absolute;left:14px;top:50%;transform:translateY(-50%);
-  font-size:16px;color:var(--text3);z-index:1;
+  font-size:15px;color:#94a3b8;z-index:1;
 }
 .login-input-wrap input{
   width:100%;padding:13px 14px 13px 44px;
-  border:1.5px solid var(--border);border-radius:var(--radius-sm);
-  font-size:14px;transition:all .2s;outline:none;
+  border:1.5px solid #e2e8f0;border-radius:10px;
+  font-size:14px;transition:all .2s;outline:none;color:#0f172a;background:#f8fafc;
 }
-.login-input-wrap input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(37,99,235,.1);}
+.login-input-wrap input:focus{border-color:#2563eb;background:#fff;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
 .login-error{
-  background:var(--red-l);color:var(--red);
-  padding:11px 15px;border-radius:var(--radius-sm);
+  background:#fef2f2;color:#dc2626;
+  padding:10px 14px;border-radius:8px;
   font-size:12px;margin-bottom:14px;display:none;
-  border:1px solid #fca5a5;animation:shake .4s ease;
+  border:1px solid #fecaca;
 }
 .login-error.show{display:block;}
 .login-btn{
-  width:100%;padding:13px;
-  background:var(--primary);
-  color:#fff;border:none;border-radius:var(--radius-sm);
-  font-size:14px;font-weight:600;cursor:pointer;
-  transition:all .2s;margin-top:8px;position:relative;overflow:hidden;
+  width:100%;padding:14px;background:#0f172a;
+  color:#fff;border:none;border-radius:10px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  transition:all .2s;margin-top:10px;position:relative;overflow:hidden;letter-spacing:0.3px;
 }
-.login-btn:hover{background:var(--primary-d);box-shadow:0 4px 12px rgba(37,99,235,.3);}
+.login-btn:hover{background:#1e293b;}
+.login-btn:active{transform:scale(.99);}
 .login-btn.loading::after{
-  content:'';position:absolute;width:20px;height:20px;
+  content:'';position:absolute;width:18px;height:18px;
   border:2px solid transparent;border-top-color:#fff;
   border-radius:50%;animation:spin .8s linear infinite;
   left:50%;top:50%;transform:translate(-50%,-50%);
 }
-.login-footer{
-  position:absolute;bottom:24px;left:0;right:0;
-  text-align:center;font-size:11px;color:rgba(255,255,255,.25);
+.lr-footer{font-size:10px;color:#cbd5e1;text-align:center;margin-top:20px;}
+/* 모바일 */
+@media(max-width:600px){
+  .login-split{flex-direction:column;height:auto;max-width:400px;}
+  .login-left{width:100%;padding:28px 24px;}
+  .login-right{width:100%;padding:28px 24px;}
 }
 
 /* ══ 치아 선택기 ══ */
-.tooth-selector{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;}
+.tooth-selector{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;width:100%;}
 .tooth-btn{
-  width:32px;height:32px;border-radius:var(--radius-xs);
+  width:36px;height:36px;border-radius:var(--radius-xs);
   border:1.5px solid var(--border);background:var(--surface);
   font-size:10px;font-weight:700;cursor:pointer;
   transition:all var(--transition);color:var(--text2);
@@ -628,6 +666,11 @@ textarea.input{resize:vertical;min-height:80px;}
 .photo-thumb-del{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
 .photo-icon-btn{background:none;border:none;cursor:pointer;padding:2px 4px;font-size:14px;opacity:.4;}
 .photo-icon-btn.has-photo{opacity:1;color:var(--blue);}
+.notice-banner{display:none;margin:12px 16px 0;padding:10px 16px;background:var(--yellow-l);border:1px solid #fcd34d;border-radius:10px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:10px;animation:fadeIn .3s ease;}
+.notice-banner.visible{display:flex;}
+.notice-banner-text{flex:1;line-height:1.5;}
+.notice-banner-close{background:none;border:none;cursor:pointer;font-size:16px;color:#92400e;padding:0;opacity:.6;}
+.notice-banner-close:hover{opacity:1;}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px;}
 .gallery-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:.15s;}
 .gallery-card:hover{border-color:var(--blue);transform:translateY(-2px);}
@@ -647,39 +690,68 @@ textarea.input{resize:vertical;min-height:80px;}
 
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
-  <div class="login-particles">
-    <span class="particle" style="top:15%;left:8%;animation-delay:0s;">🦷</span>
-    <span class="particle" style="top:65%;left:12%;animation-delay:-4s;">⚙️</span>
-    <span class="particle" style="top:25%;right:9%;animation-delay:-8s;">🦷</span>
-    <span class="particle" style="top:75%;right:14%;animation-delay:-12s;">📊</span>
-    <span class="particle" style="top:45%;left:3%;animation-delay:-6s;">💎</span>
-    <span class="particle" style="top:50%;right:5%;animation-delay:-2s;">🦷</span>
-  </div>
-  <div class="login-box">
-    <div class="login-brand">🦷</div>
-    <div class="login-title">이룸덴탈랩</div>
-    <div class="login-sub">치과기공소 통합 관리 포털 v5.0</div>
-    <div class="login-error" id="loginError"></div>
-    <div class="login-form">
-      <div class="form-group">
-        <label>아이디</label>
-        <div class="login-input-wrap">
-          <span class="icon">👤</span>
-          <input type="text" id="loginId" placeholder="아이디를 입력하세요" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('loginPw').focus()">
-        </div>
+  <div class="login-split">
+
+    <!-- ── 왼쪽: 브랜드 + 공지 패널 ── -->
+    <div class="login-left">
+      <div class="ll-top">
+        <div class="ll-logo">이룸<span>덴탈랩</span></div>
+        <div class="ll-eng">Dental Laboratory Portal</div>
+        <div class="ll-tagline">치과기공소 전용<br>케이스 관리 시스템</div>
+        <div class="ll-desc">케이스 진행현황 · 경영분석 · 거래처 관리<br>언제 어디서나 실시간으로 확인하세요.</div>
       </div>
-      <div class="form-group">
-        <label>비밀번호</label>
-        <div class="login-input-wrap">
-          <span class="icon">🔑</span>
-          <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
+
+      <!-- 공지사항 박스 (NOTICE 데이터 JS로 주입) -->
+      <div class="ll-notice" id="loginNoticeBox">
+        <div class="ll-notice-head">
+          <div class="ll-notice-dot"></div>
+          공지사항
         </div>
+        <div class="ll-notice-text" id="loginNoticeText">
+          <span class="ll-notice-empty">등록된 공지사항이 없습니다.</span>
+        </div>
+        <div class="ll-notice-date" id="loginNoticeDate"></div>
       </div>
-      <button class="login-btn" id="loginBtn"><span>로그인</span></button>
+
+      <!-- 기공소 연락처 (LAB_INFO 데이터 JS로 주입) -->
+      <div class="ll-bottom">
+        <div id="loginLabInfo">
+          <div class="ll-info-row"><span>Tel</span><span>-</span></div>
+        </div>
+        <div class="ll-version">이룸덴탈랩 포털 v5.0 &copy; 2026</div>
+      </div>
+    </div>
+
+    <!-- ── 오른쪽: 로그인 폼 ── -->
+    <div class="login-right">
+      <div class="lr-badge">이룸덴탈랩 포털 v5.0</div>
+      <div class="lr-title">로그인</div>
+      <div class="lr-sub">아이디와 비밀번호를 입력하세요</div>
+      <div class="login-error" id="loginError"></div>
+      <div class="login-form">
+        <div class="form-group">
+          <label style="font-size:12px;font-weight:600;color:#374151;">아이디</label>
+          <div class="login-input-wrap">
+            <span class="icon">👤</span>
+            <input type="text" id="loginId" placeholder="아이디를 입력하세요"
+              autocomplete="username"
+              onkeydown="if(event.key==='Enter')document.getElementById('loginPw').focus()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label style="font-size:12px;font-weight:600;color:#374151;">비밀번호</label>
+          <div class="login-input-wrap">
+            <span class="icon">🔑</span>
+            <input type="password" id="loginPw" placeholder="비밀번호를 입력하세요"
+              autocomplete="current-password">
+          </div>
+        </div>
+        <button class="login-btn" id="loginBtn"><span>로그인</span></button>
+      </div>
+      <div class="lr-footer">© 2026 이룸덴탈랩 · Dental Lab Portal</div>
     </div>
 
   </div>
-  <div class="login-footer">이룸덴탈랩 포털 v5.0 &copy; 2026</div>
 </div>
 
 <!-- ══════════ APP ══════════ -->
@@ -721,6 +793,10 @@ textarea.input{resize:vertical;min-height:80px;}
       <button class="nav-item" data-page="gallery" onclick="navigate('gallery')">
         <span class="icon">📸</span> 사진 갤러리
       </button>
+      <div class="nav-section admin-only">공지</div>
+      <button class="nav-item admin-only" data-page="notice" onclick="navigate('notice')">
+        <span class="icon">📢</span> 공지사항 관리
+      </button>
       <div class="nav-section">설정</div>
       <button class="nav-item" data-page="settings" onclick="navigate('settings')">
         <span class="icon">⚙️</span> 설정
@@ -747,6 +823,11 @@ textarea.input{resize:vertical;min-height:80px;}
       </div>
     </header>
 
+    <div id="noticeBanner" class="notice-banner">
+      <span style="font-size:16px;">📢</span>
+      <div class="notice-banner-text" id="noticeText"></div>
+      <button class="notice-banner-close" onclick="dismissNotice()" title="닫기">✕</button>
+    </div>
     <div class="page-content" id="pageContent">
       <!-- Pages injected here -->
     </div>
@@ -1208,6 +1289,8 @@ function clearSession() {
 window.addEventListener('DOMContentLoaded', async () => {
   await initData();
   isDataReady = true;
+  // 로그인 화면 공지 + 기공소 정보 주입 (localStorage 기반 - Supabase 무관)
+  renderLoginScreen();
   
   // 기존 세션 확인 및 자동 로그인
   // 자동 로그인 없음 — 항상 로그인 화면부터 시작
@@ -1216,6 +1299,39 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
 // quickLogin 제거됨 (보안)
+
+function renderLoginScreen(){
+  // ── 공지사항 주입 ──
+  const noticeText = document.getElementById('loginNoticeText');
+  const noticeDate = document.getElementById('loginNoticeDate');
+  if(noticeText && NOTICE.active && NOTICE.text){
+    noticeText.innerHTML = NOTICE.text.replace(/\n/g,'<br>');
+    if(noticeDate && NOTICE.updated_at){
+      noticeDate.textContent = new Date(NOTICE.updated_at).toLocaleDateString('ko-KR');
+    }
+  }
+
+  // ── 기공소 정보 주입 ──
+  const labInfoEl = document.getElementById('loginLabInfo');
+  if(labInfoEl){
+    const rows = [];
+    if(LAB_INFO.phone)   rows.push(`<div class="ll-info-row"><span>Tel</span><span>${LAB_INFO.phone}</span></div>`);
+    if(LAB_INFO.fax)     rows.push(`<div class="ll-info-row"><span>Fax</span><span>${LAB_INFO.fax}</span></div>`);
+    if(LAB_INFO.email)   rows.push(`<div class="ll-info-row"><span>E</span><span>${LAB_INFO.email}</span></div>`);
+    if(LAB_INFO.address) rows.push(`<div class="ll-info-row"><span>주소</span><span>${LAB_INFO.address}</span></div>`);
+    if(rows.length > 0){
+      labInfoEl.innerHTML = rows.join('');
+    } else {
+      labInfoEl.innerHTML = '<div class="ll-info-row"><span>Tel</span><span style="color:rgba(255,255,255,.2);">설정에서 입력하세요</span></div>';
+    }
+  }
+
+  // ── 기공소명 뱃지 업데이트 ──
+  const badge = document.querySelector('.lr-badge');
+  if(badge && LAB_INFO.name){
+    badge.textContent = LAB_INFO.name + ' 포털 v5.0';
+  }
+}
 
 async function doLogin(){
   if (!isDataReady) {showLoginError('데이터 로딩 중... 잠시 후 시도하세요.');return;}
@@ -1311,6 +1427,7 @@ function initApp(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').classList.add('logged-in');
   document.getElementById('sidebarName').textContent=currentUser.name;
+  showNoticeBanner();
   document.getElementById('sidebarRole').textContent=currentUser.role==='admin'?'관리자':'치과 사용자';
   document.getElementById('sidebarAvatar').textContent=currentUser.role==='admin'?'👨‍💼':'🏥';
   document.getElementById('topbarBadge').textContent=currentUser.role==='admin'?'🔴 관리자':'🔵 '+currentUser.name;
@@ -1332,10 +1449,10 @@ function initApp(){
 //  NAVIGATION
 // ══════════════════════════════════════════════════
 
-const PAGE_TITLES={dashboard:'📋 진행현황',stats:'📊 통계 대시보드',sales:'매출 분석',bep:'📈 경영 분석',fixedcosts:'고정비 관리',products:'보철 / 원가 관리',clinics:'거래처 관리',gallery:'📸 사진 갤러리',settings:'설정'};
+const PAGE_TITLES={dashboard:'📋 진행현황',stats:'📊 통계 대시보드',sales:'매출 분석',bep:'📈 경영 분석',fixedcosts:'고정비 관리',products:'보철 / 원가 관리',clinics:'거래처 관리',gallery:'📸 사진 갤러리',notice:'📢 공지사항 관리',settings:'설정'};
 
 function navigate(page){
-  if(currentUser.role!=='admin'&&['sales','bep','fixedcosts','products','clinics'].includes(page)){
+  if(currentUser.role!=='admin'&&['sales','bep','fixedcosts','products','clinics','notice'].includes(page)){
     showToast('접근 권한이 없습니다.','error');return;
   }
   document.querySelectorAll('.nav-item').forEach(el=>{
@@ -1358,6 +1475,7 @@ function navigate(page){
     case 'products': renderProducts();break;
     case 'clinics': renderClinics();break;
     case 'gallery': renderGallery();break;
+    case 'notice': renderNotice();break;
     case 'settings': renderSettings();break;
   }
 }
@@ -1494,10 +1612,16 @@ function renderCaseTable(){
   const bb=document.getElementById('batchBar');
   if(dashSelectedIds.size>0&&isAdmin){
     bb.className='batch-bar';
+    const batchColors={working:'#d97706',design:'#7c3aed',making:'#ea580c',ship:'#0ea5e9',done:'#16a34a'};
+    const batchIcons={working:'🟡',design:'🟣',making:'🟠',ship:'🔵',done:'🟢'};
     bb.innerHTML=`<span class="batch-info">✅ ${dashSelectedIds.size}개 선택됨</span>
     <div class="batch-actions">
-      ${['working','design','making','ship','done'].map(s=>`<button class="batch-select-btn" onclick="batchChangeStatus('${s}')">${statusLabel(s)}</button>`).join('')}
-      <button class="batch-close-btn" onclick="dashSelectedIds.clear();renderCaseTable()">✕</button>
+      ${['working','design','making','ship','done'].map(s=>`
+        <button class="batch-select-btn" onclick="batchChangeStatus('${s}')"
+          style="border-color:${batchColors[s]};color:${batchColors[s]};">
+          ${batchIcons[s]} ${statusLabel(s)}
+        </button>`).join('')}
+      <button class="batch-close-btn" onclick="dashSelectedIds.clear();renderCaseTable()">✕ 취소</button>
     </div>`;
   } else {bb.className='hidden';}
   
@@ -1645,13 +1769,272 @@ function openCaseDetail(id){
     </div>
   </div>`;
   
-  document.getElementById('detailPanelFooter').innerHTML=isAdmin?`
+  document.getElementById('detailPanelFooter').innerHTML=`
+    <button class="btn btn-secondary btn-sm" onclick="printCase('${id}')">🖨️ 인쇄</button>
+    ${isAdmin?`
     <button class="btn btn-danger btn-sm" onclick="deleteCase('${id}')">🗑 삭제</button>
-    <button class="btn btn-primary btn-sm" onclick="openCaseModal('${id}')">✏️ 수정</button>`:'';
+    <button class="btn btn-primary btn-sm" onclick="openCaseModal('${id}')">✏️ 수정</button>`:''}`;
   
   document.getElementById('detailPanel').classList.add('open');
   document.getElementById('detailOverlay').classList.add('open');
 }
+function printCase(id){
+  const c = CASES.find(x => x.id === id);
+  if(!c) return;
+  const clinic = CLINICS.find(cl => cl.id === c.clinic_id) || {};
+  // tooth_numbers가 배열/문자열/undefined 모두 안전하게 처리
+  let toothArr = [];
+  if (Array.isArray(c.tooth_numbers) && c.tooth_numbers.length > 0) {
+    toothArr = c.tooth_numbers.map(String);
+  } else if (typeof c.tooth_numbers === 'string' && c.tooth_numbers) {
+    toothArr = c.tooth_numbers.split(',').map(s=>s.trim()).filter(Boolean);
+  } else if (c.tooth_number) {
+    toothArr = String(c.tooth_number).split(',').map(s=>s.trim()).filter(Boolean);
+  }
+  const teeth = toothArr.length > 0 ? toothArr.join(', ') : '-';
+  const statusKo = {working:'접수중',design:'디자인중',making:'제작중',ship:'배송중',done:'완료됨'};
+  const today = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  const receiveDate = c.receive_date ? new Date(c.receive_date).toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'}) : '-';
+  const shipDate = c.ship_date ? new Date(c.ship_date).toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'}) : '-';
+  const finalAmt = c.is_remake ? '0' : (c.final_price||0).toLocaleString();
+  const unitAmt  = c.is_remake ? '0' : (c.price||0).toLocaleString();
+  const discRate = c.is_remake ? '-' : (c.discount_rate > 0 ? '+'+c.discount_rate+'%' : c.discount_rate+'%');
+
+  const printWin = window.open('','_blank','width=900,height=700');
+  printWin.document.write(`<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<title>치과기공 의뢰서 - ${c.case_number}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR','맑은 고딕',sans-serif;background:#fff;color:#111;font-size:12px;padding:0;}
+.page{width:210mm;min-height:297mm;margin:0 auto;padding:14mm 16mm;position:relative;}
+
+/* ── 상단 헤더 ── */
+.doc-header{display:flex;justify-content:space-between;align-items:stretch;margin-bottom:8mm;border:2px solid #1a1a2e;border-radius:4px;overflow:hidden;}
+.lab-info{padding:6mm 8mm;background:#1a1a2e;color:#fff;min-width:55mm;}
+.lab-logo{font-size:20px;font-weight:900;letter-spacing:-0.5px;margin-bottom:3px;}
+.lab-logo span{color:#60a5fa;}
+.lab-sub{font-size:9px;color:rgba(255,255,255,.6);letter-spacing:1px;text-transform:uppercase;}
+.lab-contact{margin-top:8px;font-size:9px;color:rgba(255,255,255,.7);line-height:1.7;}
+.doc-title-area{flex:1;padding:6mm 8mm;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;gap:4px;}
+.doc-title{font-size:22px;font-weight:900;letter-spacing:2px;color:#1a1a2e;}
+.doc-num-wrap{display:flex;align-items:center;gap:8px;}
+.doc-num{font-size:13px;font-family:monospace;font-weight:700;color:#2563eb;background:#eff6ff;padding:3px 10px;border-radius:20px;border:1px solid #bfdbfe;}
+.remake-tag{background:#fee2e2;color:#991b1b;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #fca5a5;}
+.doc-date{font-size:10px;color:#888;}
+
+/* ── 섹션 공통 ── */
+.section{margin-bottom:6mm;}
+.section-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:3mm;padding-bottom:1.5mm;border-bottom:1px solid #e5e7eb;}
+
+/* ── 기본정보 그리드 ── */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #d1d5db;border-radius:4px;overflow:hidden;}
+.info-row{display:contents;}
+.info-cell{display:flex;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;}
+.info-cell:nth-child(even){border-right:none;}
+.info-cell:nth-last-child(-n+2){border-bottom:none;}
+.info-label{background:#f9fafb;padding:4mm 4mm;font-size:10px;font-weight:700;color:#374151;min-width:22mm;border-right:1px solid #e5e7eb;display:flex;align-items:center;}
+.info-val{padding:4mm 4mm;font-size:11px;color:#111;display:flex;align-items:center;flex:1;}
+.info-cell.full{grid-column:1/-1;border-right:none;}
+.info-cell.full .info-val{font-family:monospace;font-size:12px;font-weight:700;letter-spacing:0.5px;}
+
+/* ── 치아 도식 ── */
+.tooth-diagram{border:1px solid #d1d5db;border-radius:4px;padding:4mm;background:#fafafa;}
+.tooth-arch{display:flex;justify-content:center;gap:3px;margin-bottom:3px;}
+.tooth-box{width:18px;height:20px;border:1px solid #d1d5db;border-radius:2px;font-size:8px;display:flex;align-items:center;justify-content:center;font-family:monospace;background:#fff;color:#374151;}
+.tooth-box.selected{background:#1a1a2e;color:#fff;border-color:#1a1a2e;font-weight:700;}
+.tooth-divider{display:flex;align-items:center;gap:8px;margin:2px 0;}
+.tooth-divider-line{flex:1;height:1px;background:#d1d5db;}
+.tooth-divider-label{font-size:8px;color:#9ca3af;font-weight:600;}
+.tooth-quad-label{font-size:8px;color:#9ca3af;text-align:center;margin-bottom:2px;}
+
+/* ── 금액 박스 ── */
+.price-box{border:2px solid #1a1a2e;border-radius:6px;padding:5mm 6mm;display:flex;justify-content:space-between;align-items:center;background:#f8fafc;}
+.price-detail{display:flex;flex-direction:column;gap:3px;}
+.price-row{display:flex;gap:8px;font-size:10px;color:#555;}
+.price-row span:first-child{color:#9ca3af;min-width:18mm;}
+.price-total-label{font-size:10px;color:#6b7280;font-weight:600;}
+.price-total-val{font-size:26px;font-weight:900;color:#1a1a2e;font-family:monospace;letter-spacing:-1px;}
+.price-total-val.free{color:#dc2626;}
+.price-unit{font-size:11px;font-weight:400;color:#6b7280;}
+
+/* ── 메모 ── */
+.memo-box{border:1px solid #fcd34d;border-radius:4px;padding:4mm;background:#fffbeb;min-height:15mm;}
+.memo-label{font-size:9px;font-weight:700;color:#92400e;margin-bottom:2mm;}
+.memo-text{font-size:11px;color:#111;line-height:1.7;white-space:pre-wrap;}
+.memo-empty{font-size:10px;color:#d1d5db;font-style:italic;}
+
+/* ── 서명란 ── */
+.sign-section{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;margin-top:6mm;}
+.sign-box{border:1px solid #d1d5db;border-radius:4px;padding:3mm 4mm;min-height:22mm;position:relative;}
+.sign-title{font-size:9px;font-weight:700;color:#374151;margin-bottom:2mm;}
+.sign-name-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto;}
+.sign-name-label{font-size:8px;color:#9ca3af;}
+.sign-line{border-bottom:1px solid #d1d5db;flex:1;margin:0 6px 2px;}
+.sign-stamp{width:20mm;height:20mm;border:1px dashed #d1d5db;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:#d1d5db;position:absolute;right:4mm;bottom:4mm;}
+
+/* ── 푸터 ── */
+.doc-footer{margin-top:6mm;padding-top:3mm;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:8px;color:#9ca3af;}
+
+@media print{
+  body{padding:0;}
+  .page{padding:10mm 12mm;width:100%;}
+  @page{size:A4;margin:0;}
+}
+</style></head>
+<body>
+<div class="page">
+
+  <!-- 상단 헤더 -->
+  <div class="doc-header">
+    <div class="lab-info">
+      <div class="lab-logo">${LAB_INFO.name||'이룸덴탈랩'}</div>
+      <div class="lab-sub">Dental Laboratory</div>
+      <div class="lab-contact">
+        ${LAB_INFO.phone ? 'Tel: ' + LAB_INFO.phone + '<br>' : ''}
+        ${LAB_INFO.fax   ? 'Fax: ' + LAB_INFO.fax   + '<br>' : ''}
+        ${LAB_INFO.email ? LAB_INFO.email + '<br>' : ''}
+        ${LAB_INFO.address ? LAB_INFO.address : ''}
+      </div>
+    </div>
+    <div class="doc-title-area">
+      <div class="doc-title">치과기공 의뢰서</div>
+      <div class="doc-num-wrap">
+        <div class="doc-num">${c.case_number}</div>
+        ${c.is_remake ? '<div class="remake-tag">리메이크</div>' : ''}
+      </div>
+      <div class="doc-date">발행일 ${today}</div>
+    </div>
+  </div>
+
+  <!-- 기본 정보 -->
+  <div class="section">
+    <div class="section-title">기본 정보</div>
+    <div class="info-grid">
+      <div class="info-cell">
+        <div class="info-label">의뢰 치과</div>
+        <div class="info-val" style="font-weight:700;font-size:13px;">${c.clinic_name}</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">환 자 명</div>
+        <div class="info-val" style="font-weight:700;font-size:13px;">${c.patient_name}</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">보 철 명</div>
+        <div class="info-val">${c.product_name}</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">유 형</div>
+        <div class="info-val">${c.type || '-'}</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">접 수 일</div>
+        <div class="info-val">${receiveDate}</div>
+      </div>
+      <div class="info-cell">
+        <div class="info-label">납 기 일</div>
+        <div class="info-val" style="font-weight:700;color:#dc2626;">${shipDate}</div>
+      </div>
+      <div class="info-cell full">
+        <div class="info-label">치아 번호</div>
+        <div class="info-val">#&nbsp;${teeth}</div>
+      </div>
+      <div class="info-cell full">
+        <div class="info-label">진행 상태</div>
+        <div class="info-val"><span style="display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#f3f4f6;color:#374151;">${statusKo[c.status]||c.status}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 치아 도식 -->
+  <div class="section">
+    <div class="section-title">치아 위치</div>
+    <div class="tooth-diagram">
+      <div class="tooth-quad-label">상악 (위)</div>
+      <div class="tooth-arch">
+        ${[18,17,16,15,14,13,12,11].map(n=>`<div class="tooth-box ${toothArr.includes(String(n))?'selected':''}">${n}</div>`).join('')}
+        <div style="width:4px;"></div>
+        ${[21,22,23,24,25,26,27,28].map(n=>`<div class="tooth-box ${toothArr.includes(String(n))?'selected':''}">${n}</div>`).join('')}
+      </div>
+      <div class="tooth-divider"><div class="tooth-divider-line"></div><div class="tooth-divider-label">교합면</div><div class="tooth-divider-line"></div></div>
+      <div class="tooth-arch">
+        ${[48,47,46,45,44,43,42,41].map(n=>`<div class="tooth-box ${toothArr.includes(String(n))?'selected':''}">${n}</div>`).join('')}
+        <div style="width:4px;"></div>
+        ${[31,32,33,34,35,36,37,38].map(n=>`<div class="tooth-box ${toothArr.includes(String(n))?'selected':''}">${n}</div>`).join('')}
+      </div>
+      <div class="tooth-quad-label" style="margin-top:2px;">하악 (아래)</div>
+    </div>
+  </div>
+
+  <!-- 금액 -->
+  <div class="section">
+    <div class="section-title">금액</div>
+    <div class="price-box">
+      <div class="price-detail">
+        <div class="price-row"><span>기본 단가</span><span>${unitAmt}원</span></div>
+        <div class="price-row"><span>할 인 율</span><span>${discRate}</span></div>
+        <div class="price-row"><span>치아 수량</span><span>${c.tooth_count||1}개</span></div>
+      </div>
+      <div style="text-align:right;">
+        <div class="price-total-label">최 종 금 액</div>
+        <div class="price-total-val ${c.is_remake?'free':''}">${finalAmt}<span class="price-unit">원</span></div>
+        ${c.is_remake?'<div style="font-size:9px;color:#dc2626;margin-top:2px;">리메이크 — 무상 처리</div>':''}
+      </div>
+    </div>
+  </div>
+
+  <!-- 메모 -->
+  <div class="section">
+    <div class="section-title">메모 / 특이사항</div>
+    <div class="memo-box">
+      ${c.memo
+        ? `<div class="memo-text">${c.memo}</div>`
+        : `<div class="memo-empty">없음</div>`}
+    </div>
+  </div>
+
+  <!-- 서명란 -->
+  <div class="sign-section">
+    <div class="sign-box">
+      <div class="sign-title">의뢰 치과 확인</div>
+      <div style="margin-top:6mm;font-size:9px;color:#9ca3af;">치과명</div>
+      <div style="border-bottom:1px solid #d1d5db;margin-top:2mm;margin-bottom:4mm;">&nbsp;</div>
+      <div style="font-size:9px;color:#9ca3af;">원장 서명</div>
+      <div style="border-bottom:1px solid #d1d5db;margin-top:10mm;">&nbsp;</div>
+      <div class="sign-stamp">(인)</div>
+    </div>
+    <div class="sign-box">
+      <div class="sign-title">기공소 수령 확인</div>
+      <div style="margin-top:6mm;font-size:9px;color:#9ca3af;">수령일</div>
+      <div style="border-bottom:1px solid #d1d5db;margin-top:2mm;margin-bottom:4mm;">&nbsp;</div>
+      <div style="font-size:9px;color:#9ca3af;">담당자 서명</div>
+      <div style="border-bottom:1px solid #d1d5db;margin-top:10mm;">&nbsp;</div>
+      <div class="sign-stamp">(인)</div>
+    </div>
+    <div class="sign-box">
+      <div class="sign-title">납품 완료 확인</div>
+      <div style="margin-top:6mm;font-size:9px;color:#9ca3af;">완료일</div>
+      <div style="border-bottom:1px solid #d1d5db;margin-top:2mm;margin-bottom:4mm;">&nbsp;</div>
+      <div style="font-size:9px;color:#9ca3af;">확인 서명</div>
+      <div style="border-bottom:1px solid #d1d5db;margin-top:10mm;">&nbsp;</div>
+      <div class="sign-stamp">(인)</div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="doc-footer">
+    <span>${LAB_INFO.name||'이룸덴탈랩'} Dental Laboratory · 치과기공 의뢰서</span>
+    <span>출력: ${new Date().toLocaleString('ko-KR')} · ${c.case_number}</span>
+  </div>
+
+</div>
+</body></html>`);
+  printWin.document.close();
+  setTimeout(()=>{ try{printWin.print();}catch(e){} }, 800);
+}
+
 function closeDetailPanel(){
   document.getElementById('detailPanel').classList.remove('open');
   document.getElementById('detailOverlay').classList.remove('open');
@@ -1709,12 +2092,12 @@ function openCaseModal(id=null){
         ${PRODUCTS.filter(p=>!p.is_deleted).map(p=>`<option value="${p.id}" ${c?.product_id===p.id?'selected':''}>${p.name} (${fmt(p.selling_price)})</option>`).join('')}
       </select>
     </div>
-    <div class="form-group">
+  </div>
+  <div class="form-group" style="width:100%;">
       <label>치아번호 (FDI)</label>
       <div class="tooth-selector" id="toothSelector"></div>
       <input type="hidden" id="cm_tooth" value="">
       <div class="tooth-selected-list" id="toothSelectedList"></div>
-    </div>
   </div>
   <div class="form-row">
     <div class="form-group">
@@ -1728,9 +2111,20 @@ function openCaseModal(id=null){
       <input class="input" type="date" id="cm_ship" value="${c?.ship_date||new Date(Date.now()+3*86400000).toISOString().slice(0,10)}">
     </div>
   </div>
-  <div class="form-group">
-    <label>메모</label>
-    <textarea class="input" id="cm_memo" rows="2" placeholder="추가 메모...">${c?.memo||''}</textarea>
+  <div class="form-row" style="align-items:center;gap:16px;">
+    <div class="form-group" style="flex:1;">
+      <label>메모</label>
+      <textarea class="input" id="cm_memo" rows="2" placeholder="추가 메모...">${c?.memo||''}</textarea>
+    </div>
+    <div class="form-group" style="flex:0 0 auto;padding-top:20px;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap;">
+        <input type="checkbox" id="cm_remake" ${c?.is_remake?'checked':''} 
+          onchange="onRemakeToggle(this.checked)"
+          style="width:18px;height:18px;cursor:pointer;">
+        <span style="font-weight:600;color:var(--red);">🔴 리메이크</span>
+      </label>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px;">선택 시 가격 0원 처리</div>
+    </div>
   </div>
   <div id="cm_price_preview" style="background:var(--blue-l);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;"></div>
   <div class="form-group" style="margin-top:12px;">
@@ -1871,6 +2265,16 @@ function getClinicPriceLabel(clinic, product) {
   return `할인율 ${clinic.discount_rate || 0}%`;
 }
 
+function onRemakeToggle(checked){
+  const pricePreview = document.getElementById('cm_price_preview');
+  if(checked){
+    if(pricePreview) pricePreview.innerHTML = '🔴 <b>리메이크</b> — 가격 <b style="color:var(--red);">0원</b> 처리됩니다.';
+    pricePreview.style.background = 'var(--red-l)';
+  } else {
+    updateCasePrice();
+  }
+}
+
 function updateCasePrice(){
   const sel = document.getElementById('cm_product')?.value;
   const clinicId = document.getElementById('cm_clinic')?.value;
@@ -1907,11 +2311,12 @@ async function saveCaseModal(editId){
   
   const clinic = CLINICS.find(c=>c.id===clinicId);
   const product = PRODUCTS.find(p=>p.id===productId);
-  const unitFinal = getClinicPrice(clinic, product);
+  const isRemake = document.getElementById('cm_remake')?.checked || false;
+  const unitFinal = isRemake ? 0 : getClinicPrice(clinic, product);
   
   const toothNumbers = toothValue ? toothValue.split(',').filter(t=>t) : [];
   const toothCount = toothNumbers.length || 1;
-  const finalPrice = unitFinal * toothCount;
+  const finalPrice = isRemake ? 0 : unitFinal * toothCount;
   
   if(editId){
     const c=CASES.find(x=>x.id===editId);
@@ -1924,7 +2329,8 @@ async function saveCaseModal(editId){
       type:document.getElementById('cm_type').value,
       ship_date:document.getElementById('cm_ship').value,
       memo:document.getElementById('cm_memo').value,
-      price:unitFinal,discount_rate:clinic.discount_rate,final_price:finalPrice,
+      price:unitFinal,discount_rate:isRemake ? 0 : clinic.discount_rate,final_price:finalPrice,
+      is_remake:isRemake,
       photos:updPhotos
     });
     showToast('케이스가 수정되었습니다.','success');
@@ -1944,7 +2350,7 @@ async function saveCaseModal(editId){
       tooth_count:toothCount,
       type:document.getElementById('cm_type').value,
       price:unitFinal,discount_rate:clinic.discount_rate,final_price:finalPrice,
-      status:'working',is_remake:false,
+      status:'working',is_remake:isRemake,
       receive_date:new Date().toISOString().slice(0,10),
       ship_date:document.getElementById('cm_ship').value,
       memo:document.getElementById('cm_memo').value,
@@ -2039,30 +2445,30 @@ function renderBEPContent(){
       </div>
       <div class="bep-progress-label"><span>0%</span><span>BEP: ${bep.bepQuantity}개</span><span>200%</span></div>
     </div>
-    <div class="bep-metrics">
-      <div class="bep-metric">
-        <div class="bep-metric-label">📦 현재 제작수</div>
-        <div class="bep-metric-value">${bep.currentQuantity}<small style="font-size:12px;">개</small></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;">
+      <div style="background:var(--surface2);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">📦 현재 제작수</div>
+        <div style="font-size:22px;font-weight:800;">${bep.currentQuantity}<span style="font-size:12px;font-weight:400;">개</span></div>
       </div>
-      <div class="bep-metric">
-        <div class="bep-metric-label">🎯 목표(BEP)</div>
-        <div class="bep-metric-value">${bep.bepQuantity}<small style="font-size:12px;">개</small></div>
+      <div style="background:var(--surface2);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">🎯 목표(BEP)</div>
+        <div style="font-size:22px;font-weight:800;">${bep.bepQuantity}<span style="font-size:12px;font-weight:400;">개</span></div>
       </div>
-      <div class="bep-metric">
-        <div class="bep-metric-label">➕ 추가 필요</div>
-        <div class="bep-metric-value ${bep.neededQuantity>0?'negative':'positive'}">${bep.neededQuantity>0?bep.neededQuantity:'달성!'}</div>
+      <div style="background:${bep.neededQuantity>0?'var(--red-l)':'var(--green-l)'};border-radius:10px;padding:12px 14px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">➕ 추가 필요</div>
+        <div style="font-size:22px;font-weight:800;color:${bep.neededQuantity>0?'var(--red)':'var(--green)'};">${bep.neededQuantity>0?bep.neededQuantity+'개':'달성! 🎉'}</div>
       </div>
-      <div class="bep-metric">
-        <div class="bep-metric-label">💰 가중평균 단가</div>
-        <div class="bep-metric-value font-mono" style="font-size:14px;">${fmt(bep.weightedSellingPrice)}</div>
+      <div style="background:var(--surface2);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">💰 가중평균 단가</div>
+        <div style="font-size:15px;font-weight:700;font-family:'DM Mono',monospace;">${fmt(bep.weightedSellingPrice)}</div>
       </div>
-      <div class="bep-metric">
-        <div class="bep-metric-label">⭐ 가중평균 공헌이익</div>
-        <div class="bep-metric-value font-mono positive" style="font-size:14px;">${fmt(bep.contributionMargin)}</div>
+      <div style="background:var(--blue-l);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">⭐ 가중평균 공헌이익</div>
+        <div style="font-size:15px;font-weight:700;font-family:'DM Mono',monospace;color:var(--blue);">${fmt(bep.contributionMargin)}</div>
       </div>
-      <div class="bep-metric">
-        <div class="bep-metric-label">📊 공헌이익률</div>
-        <div class="bep-metric-value">${bep.contributionMarginRatio.toFixed(1)}<small style="font-size:12px;">%</small></div>
+      <div style="background:var(--surface2);border-radius:10px;padding:12px 14px;text-align:center;">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">📊 공헌이익률</div>
+        <div style="font-size:22px;font-weight:800;">${bep.contributionMarginRatio.toFixed(1)}<span style="font-size:12px;font-weight:400;">%</span></div>
       </div>
     </div>
     <div class="bep-alert ${alertClass}">${alertMsg}</div>
@@ -2160,7 +2566,11 @@ function renderBEPContent(){
 }
 
 function calcBEP(yearMonth){
-  const prodInMonth=PRODUCTION_LOG.filter(l=>l.production_date.startsWith(yearMonth));
+  const prodInMonth=PRODUCTION_LOG.filter(l=>{
+    if(!l.production_date.startsWith(yearMonth)) return false;
+    const prod = PRODUCTS.find(p=>p.id===l.product_id);
+    return !prod?.is_free; // 영업용 무상 제품은 BEP 계산 제외
+  });
   const fc=calcMonthlyFixedCosts(yearMonth);
   
   if(!prodInMonth.length){
@@ -2374,7 +2784,7 @@ function renderProductGrid(){
     return `<div class="product-card">
       <div class="product-name">🦷 ${p.name}</div>
       <div class="product-prices">
-        <div class="price-item"><div class="price-label">판매단가</div><div class="price-value price-sell">${fmt(p.selling_price)}</div></div>
+        <div class="price-item"><div class="price-label">판매단가</div><div class="price-value price-sell">${p.is_free?'<span style="color:var(--orange,#ea580c);font-weight:700;">영업용 0원</span>':fmt(p.selling_price)}</div></div>
         <div class="price-item"><div class="price-label">재료원가</div><div class="price-value price-cost">${fmt(p.material_cost)}</div></div>
         <div class="price-item"><div class="price-label">공헌이익</div><div class="price-value price-cm">${fmt(cm)}</div></div>
       </div>
@@ -2394,16 +2804,35 @@ function openProductModal(id=null){
   openModal(p?'보철 수정':'보철 추가',`
   <div class="form-group"><label>보철명 *</label><input class="input" id="pm_name" value="${p?.name||''}" placeholder="예: 지르코니아 크라운"></div>
   <div class="form-row">
-    <div class="form-group"><label>판매단가 (원) *</label><input class="input" type="number" id="pm_sell" value="${p?.selling_price||''}" placeholder="60000" oninput="updateProductPreview()"></div>
+    <div class="form-group"><label>판매단가 (원) *</label><input class="input" type="number" id="pm_sell" value="${p?.selling_price||''}" placeholder="60000" oninput="updateProductPreview()" ${p?.is_free?'disabled':''}></div>
     <div class="form-group"><label>재료원가 (원) *</label><input class="input" type="number" id="pm_cost" value="${p?.material_cost||''}" placeholder="18000" oninput="updateProductPreview()"></div>
   </div>
   <div class="form-group"><label>단위</label><input class="input" id="pm_unit" value="${p?.unit||'개'}" placeholder="개"></div>
+  <div class="form-group">
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+      <input type="checkbox" id="pm_is_free" ${p?.is_free?'checked':''} onchange="onProductFreeToggle(this.checked)" style="width:16px;height:16px;cursor:pointer;">
+      <span style="font-weight:600;color:var(--orange,#ea580c);">영업용 (무상 제공)</span>
+    </label>
+    <div style="font-size:11px;color:var(--text3);margin-top:3px;margin-left:24px;">판매가 0원 허용 · BEP 계산에서 제외됨</div>
+  </div>
   <div id="pm_preview" style="background:var(--green-l);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;border:1px solid #86efac;"></div>
   `,
   `<button class="btn btn-secondary" onclick="closeModal()">취소</button>
    <button class="btn btn-primary" onclick="saveProductModal('${id||''}')">💾 저장</button>`);
   updateProductPreview();
 }
+function onProductFreeToggle(checked){
+  const sellInput = document.getElementById('pm_sell');
+  if(checked){
+    sellInput.value = '0';
+    sellInput.disabled = true;
+  } else {
+    sellInput.value = '';
+    sellInput.disabled = false;
+  }
+  updateProductPreview();
+}
+
 function updateProductPreview(){
   const sell=parseInt(document.getElementById('pm_sell')?.value)||0;
   const cost=parseInt(document.getElementById('pm_cost')?.value)||0;
@@ -2411,6 +2840,13 @@ function updateProductPreview(){
   if(!prev)return;
   if(!sell){prev.innerHTML='';return;}
   const cm=sell-cost;const cmr=sell>0?(cm/sell*100).toFixed(1):0;
+  const isFree = document.getElementById('pm_is_free')?.checked;
+  if(isFree){
+    prev.style.background='var(--yellow-l,#fffbeb)';
+    prev.style.borderColor='#fcd34d';
+    prev.innerHTML=`🟡 <b>영업용 무상 제공</b> — BEP 계산 제외 · 재료원가 <b class="font-mono">${fmt(cost)}</b>만 반영`;
+    return;
+  }
   const ok=cm>0;
   prev.style.background=ok?'var(--green-l)':'var(--red-l)';
   prev.style.borderColor=ok?'#86efac':'#fca5a5';
@@ -2420,17 +2856,18 @@ async function saveProductModal(editId){
   const name=document.getElementById('pm_name').value.trim();
   const sell=parseInt(document.getElementById('pm_sell').value);
   const cost=parseInt(document.getElementById('pm_cost').value);
-  if(!name||!sell||isNaN(cost)){showToast('필수 항목을 입력하세요.','error');return;}
-  if(sell<=0){showToast('판매단가는 0보다 커야 합니다.','error');return;}
+  const isFreeProduct = document.getElementById('pm_is_free')?.checked || false;
+  if(!name||isNaN(sell)||isNaN(cost)){showToast('필수 항목을 입력하세요.','error');return;}
+  if(!isFreeProduct && sell<=0){showToast('판매단가는 0보다 커야 합니다.','error');return;}
   if(cost<0){showToast('재료원가는 0 이상이어야 합니다.','error');return;}
-  if(cost>=sell){showToast('재료원가는 판매단가보다 작아야 합니다.','error');return;}
+  if(!isFreeProduct && cost>=sell){showToast('재료원가는 판매단가보다 작아야 합니다.','error');return;}
   if(editId){
     const p=PRODUCTS.find(x=>x.id===editId);
-    Object.assign(p,{name,selling_price:sell,material_cost:cost,unit:document.getElementById('pm_unit').value});
+    Object.assign(p,{name,selling_price:sell,material_cost:cost,unit:document.getElementById('pm_unit').value,is_free:isFreeProduct});
 
     showToast('보철 정보가 수정되었습니다.','success');
   } else {
-    PRODUCTS.push({id:`p${Date.now()}`,name,selling_price:sell,material_cost:cost,unit:document.getElementById('pm_unit').value||'개',is_active:true,is_deleted:false});
+    PRODUCTS.push({id:`p${Date.now()}`,name,selling_price:sell,material_cost:cost,unit:document.getElementById('pm_unit').value||'개',is_active:true,is_deleted:false,is_free:isFreeProduct});
 
     showToast('보철이 추가되었습니다.','success');
   }
@@ -2766,6 +3203,89 @@ function renderSales(){
 //  SETTINGS PAGE
 // ══════════════════════════════════════════════════
 
+
+// ══════════════════════════════════════════════════
+//  공지사항 관리
+// ══════════════════════════════════════════════════
+let NOTICE = loadFromLocal('notice', {text:'', active:false, updated_at:''});
+let LAB_INFO = loadFromLocal('lab_info', {name:'이룸덴탈랩', phone:'', address:'', fax:'', email:''});
+
+function showNoticeBanner(){
+  if(NOTICE.active && NOTICE.text){
+    const banner = document.getElementById('noticeBanner');
+    const textEl = document.getElementById('noticeText');
+    if(banner && textEl){
+      textEl.textContent = NOTICE.text;
+      banner.classList.add('visible');
+    }
+  }
+}
+
+function dismissNotice(){
+  const banner = document.getElementById('noticeBanner');
+  if(banner) banner.classList.remove('visible');
+}
+
+function renderNotice(){
+  document.getElementById('pageContent').innerHTML = `
+  <div style="max-width:700px;">
+    <div style="font-size:20px;font-weight:800;margin-bottom:20px;">📢 공지사항 관리</div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">공지 내용 설정</div></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>공지 내용 <small style="color:var(--text3);">(모든 사용자 상단에 표시됨)</small></label>
+          <textarea class="input" id="notice_text" rows="3" placeholder="공지사항 내용을 입력하세요...">${NOTICE.text||''}</textarea>
+        </div>
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="notice_active" ${NOTICE.active?'checked':''} style="width:16px;height:16px;">
+            <span style="font-weight:600;">공지 활성화 (체크 시 표시)</span>
+          </label>
+        </div>
+        ${NOTICE.updated_at?`<div style="font-size:12px;color:var(--text3);margin-bottom:14px;">마지막 수정: ${new Date(NOTICE.updated_at).toLocaleString('ko-KR')}</div>`:''}
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="saveNotice()">💾 저장 및 적용</button>
+          <button class="btn btn-secondary" onclick="clearNotice()">🗑 공지 삭제</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px;">
+      <div class="card-header"><div class="card-title">미리보기</div></div>
+      <div class="card-body">
+        <div style="padding:10px 16px;background:var(--yellow-l);border:1px solid #fcd34d;border-radius:10px;font-size:13px;color:#92400e;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:16px;">📢</span>
+          <span id="notice_preview">${NOTICE.text||'공지 내용이 여기에 표시됩니다.'}</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('notice_text').addEventListener('input', function(){
+    document.getElementById('notice_preview').textContent = this.value || '공지 내용이 여기에 표시됩니다.';
+  });
+}
+
+async function saveNotice(){
+  const text = document.getElementById('notice_text').value.trim();
+  const active = document.getElementById('notice_active').checked;
+  NOTICE = { text, active, updated_at: new Date().toISOString() };
+  saveToLocal('notice', NOTICE);
+  await autoSave('settings', {notice: NOTICE});
+  showNoticeBanner();
+  if(!active) dismissNotice();
+  showToast('공지사항이 저장되었습니다.', 'success');
+  renderNotice();
+}
+
+async function clearNotice(){
+  NOTICE = { text:'', active:false, updated_at:'' };
+  saveToLocal('notice', NOTICE);
+  dismissNotice();
+  showToast('공지사항이 삭제되었습니다.', 'success');
+  renderNotice();
+}
+
 function renderSettings(){
   const isAdmin = currentUser.role === 'admin';
   
@@ -2858,6 +3378,39 @@ function renderSettings(){
   <div style="font-size:16px;font-weight:700;margin-bottom:20px;">설정</div>
   ${userManagementHTML}
   ${clinicInfoHTML}
+  ${isAdmin ? `
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <div class="card-title">🏢 기공소 정보 <small style="font-size:11px;color:var(--text3);font-weight:400;">(의뢰서 인쇄에 표시됨)</small></div>
+    </div>
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>기공소명</label>
+          <input class="input" id="lab_name" value="${LAB_INFO.name||'이룸덴탈랩'}" placeholder="이룸덴탈랩">
+        </div>
+        <div class="form-group">
+          <label>전화번호</label>
+          <input class="input" id="lab_phone" value="${LAB_INFO.phone||''}" placeholder="02-0000-0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>팩스</label>
+          <input class="input" id="lab_fax" value="${LAB_INFO.fax||''}" placeholder="02-0000-0000">
+        </div>
+        <div class="form-group">
+          <label>이메일</label>
+          <input class="input" id="lab_email" value="${LAB_INFO.email||''}" placeholder="lab@example.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>주소</label>
+        <input class="input" id="lab_address" value="${LAB_INFO.address||''}" placeholder="서울시 강남구 ...">
+      </div>
+      <button class="btn btn-primary" onclick="saveLabInfo()">💾 기공소 정보 저장</button>
+    </div>
+  </div>` : ''}
   <div class="grid-2">
     <div class="card">
       <div class="card-header"><div class="card-title">👤 내 계정 정보</div></div>
@@ -2934,6 +3487,22 @@ async function saveClinicSettings(clinicId){
   await autoSave('users', USERS);
   await autoSave('clinics', CLINICS);
   showToast('치과 정보가 저장되었습니다.','success');
+  renderSettings();
+}
+
+async function saveLabInfo(){
+  const name    = document.getElementById('lab_name')?.value.trim();
+  const phone   = document.getElementById('lab_phone')?.value.trim();
+  const fax     = document.getElementById('lab_fax')?.value.trim();
+  const email   = document.getElementById('lab_email')?.value.trim();
+  const address = document.getElementById('lab_address')?.value.trim();
+
+  if(!name){ showToast('기공소명을 입력하세요.','error'); return; }
+
+  LAB_INFO = { name, phone, fax, email, address };
+  saveToLocal('lab_info', LAB_INFO);
+  await autoSave('settings', { lab_info: LAB_INFO });
+  showToast('기공소 정보가 저장되었습니다.','success');
   renderSettings();
 }
 
@@ -3601,4 +4170,3 @@ document.getElementById('loginPw').addEventListener('keypress', function(e) {
 </script>
 </body>
 </html>
-
