@@ -690,10 +690,10 @@ const INITIAL_USERS = [
 ];
 
 const INITIAL_CLINICS = [
-  {id:'c1',name:'강남치과',owner:'김원장',phone:'02-1234-5678',email:'gangnam@clinic.com',address:'서울 강남구',discount_rate:-10,is_active:true},
-  {id:'c2',name:'서초치과',owner:'이원장',phone:'02-2345-6789',email:'seocho@clinic.com',address:'서울 서초구',discount_rate:0,is_active:true},
-  {id:'c3',name:'마포치과',owner:'박원장',phone:'02-3456-7890',email:'mapo@clinic.com',address:'서울 마포구',discount_rate:5,is_active:true},
-  {id:'c4',name:'송파치과',owner:'최원장',phone:'02-4567-8901',email:'songpa@clinic.com',address:'서울 송파구',discount_rate:-5,is_active:true},
+  {id:'c1',name:'강남치과',owner:'김원장',phone:'02-1234-5678',email:'gangnam@clinic.com',address:'서울 강남구',discount_rate:-10,is_active:true,custom_prices:{}},
+  {id:'c2',name:'서초치과',owner:'이원장',phone:'02-2345-6789',email:'seocho@clinic.com',address:'서울 서초구',discount_rate:0,is_active:true,custom_prices:{}},
+  {id:'c3',name:'마포치과',owner:'박원장',phone:'02-3456-7890',email:'mapo@clinic.com',address:'서울 마포구',discount_rate:5,is_active:true,custom_prices:{}},
+  {id:'c4',name:'송파치과',owner:'최원장',phone:'02-4567-8901',email:'songpa@clinic.com',address:'서울 송파구',discount_rate:-5,is_active:true,custom_prices:{}},
 ];
 
 const INITIAL_PRODUCTS = [
@@ -1564,6 +1564,34 @@ function formatToothNumbers(toothData){
   if(arr.length===1)return arr[0];
   return arr.join(', ');
 }
+// 거래처별 단가 가져오기
+// custom_prices[id] = { type:'amount'|'percent', value:숫자 }
+function getClinicPrice(clinic, product) {
+  if (!clinic || !product) return 0;
+  const custom = clinic.custom_prices?.[product.id];
+  if (custom) {
+    if (custom.type === 'amount' && custom.value > 0) {
+      return custom.value; // 금액 직접 지정
+    }
+    if (custom.type === 'percent') {
+      // % 조정 (기본단가 기준)
+      return Math.round(product.selling_price * (1 + custom.value / 100));
+    }
+  }
+  // 기본: 거래처 할인율 적용
+  const dr = (clinic.discount_rate || 0) / 100;
+  return Math.round(product.selling_price * (1 + dr));
+}
+
+// 단가 설명 텍스트 (미리보기용)
+function getClinicPriceLabel(clinic, product) {
+  if (!clinic || !product) return '';
+  const custom = clinic.custom_prices?.[product.id];
+  if (custom?.type === 'amount' && custom.value > 0) return '★ 개별금액';
+  if (custom?.type === 'percent') return `★ ${custom.value >= 0 ? '+' : ''}${custom.value}% 조정`;
+  return `할인율 ${clinic.discount_rate || 0}%`;
+}
+
 function updateCasePrice(){
   const sel = document.getElementById('cm_product')?.value;
   const clinicId = document.getElementById('cm_clinic')?.value;
@@ -1575,14 +1603,15 @@ function updateCasePrice(){
   
   const toothValue = document.getElementById('cm_tooth').value;
   const toothCount = toothValue ? toothValue.split(',').filter(t=>t).length : 0;
-  const dr = (cl?.discount_rate||0)/100;
-  const unitFinal = Math.round(p.selling_price*(1+dr));
+  const unitFinal = getClinicPrice(cl, p);
   const totalFinal = unitFinal * (toothCount || 1);
-  
+  const priceLabel = getClinicPriceLabel(cl, p);
+  const isCustom = cl?.custom_prices?.[p.id];
+
   if(toothCount > 1){
-    preview.innerHTML = `💰 단가: <b class="font-mono">${fmt(unitFinal)}</b> × <b>${toothCount}개</b> = <b class="font-mono" style="color:var(--blue);font-size:15px;">${fmt(totalFinal)}</b> (할인율: ${cl?.discount_rate||0}%)`;
+    preview.innerHTML = `💰 단가: <b class="font-mono">${fmt(unitFinal)}</b> × <b>${toothCount}개</b> = <b class="font-mono" style="color:var(--blue);font-size:15px;">${fmt(totalFinal)}</b> <span style="color:${isCustom?'var(--green)':'var(--text3)'};font-size:11px;">${priceLabel}</span>`;
   } else {
-    preview.innerHTML = `💰 기본단가: <b class="font-mono">${fmt(p.selling_price)}</b> · 할인율: <b>${cl?.discount_rate||0}%</b> · 최종: <b class="font-mono" style="color:var(--blue);">${fmt(unitFinal)}</b>`;
+    preview.innerHTML = `💰 기본단가: <b class="font-mono">${fmt(p.selling_price)}</b> · 최종: <b class="font-mono" style="color:var(--blue);">${fmt(unitFinal)}</b> <span style="color:${isCustom?'var(--green)':'var(--text3)'};font-size:11px;">${priceLabel}</span>`;
   }
 }
 async function saveCaseModal(editId){
@@ -1599,9 +1628,7 @@ async function saveCaseModal(editId){
   
   const clinic = CLINICS.find(c=>c.id===clinicId);
   const product = PRODUCTS.find(p=>p.id===productId);
-  const dr = (clinic?.discount_rate||0)/100;
-  const unitPrice = product.selling_price;
-  const unitFinal = Math.round(unitPrice*(1+dr));
+  const unitFinal = getClinicPrice(clinic, product);
   
   const toothNumbers = toothValue ? toothValue.split(',').filter(t=>t) : [];
   const toothCount = toothNumbers.length || 1;
@@ -2028,13 +2055,13 @@ async function saveFCModal(editId){
 
     showToast('고정비가 추가되었습니다.','success');
   }
-  await autoSave('cases', CASES);
+  await autoSave('fixed_costs', FIXED_COSTS);
   closeModal();renderFixedCosts();
 }
 async function deleteFC(id){
   showConfirm('고정비 삭제','이 고정비를 삭제하시겠습니까?',async ()=>{
     const f=FIXED_COSTS.find(x=>x.id===id);if(f){f.is_deleted=true;f.is_active=false;}
-    await autoSave('cases', CASES);
+    await autoSave('fixed_costs', FIXED_COSTS);
     renderFixedCosts();showToast('고정비가 삭제되었습니다.','success');
   });
 
@@ -2125,13 +2152,13 @@ async function saveProductModal(editId){
 
     showToast('보철이 추가되었습니다.','success');
   }
-  await autoSave('cases', CASES);
+  await autoSave('products', PRODUCTS);
   closeModal();renderProducts();
 }
 async function deleteProduct(id){
   showConfirm('보철 삭제','이 보철 정보를 삭제하시겠습니까?',async ()=>{
     const p=PRODUCTS.find(x=>x.id===id);if(p){p.is_deleted=true;p.is_active=false;}
-    await autoSave('cases', CASES);
+    await autoSave('products', PRODUCTS);
     renderProducts();showToast('보철이 삭제되었습니다.','success');
   });
 
@@ -2163,6 +2190,7 @@ function renderClinics(){
         <td>
           <div class="flex gap-1">
             <button class="btn btn-secondary btn-xs" onclick="openClinicModal('${c.id}')">✏️ 수정</button>
+              <button class="btn btn-secondary btn-xs" onclick="openClinicPriceModal('${c.id}')" style="color:var(--blue);">${Object.keys(c.custom_prices||{}).length > 0 ? '💰 단가✓' : '💰 단가'}</button>
           </div>
         </td>
       </tr>`).join('')}
@@ -2171,6 +2199,120 @@ function renderClinics(){
     </div>
   </div>`;
 }
+// 거래처별 보철 개별 단가 설정
+function openClinicPriceModal(clinicId) {
+  const clinic = CLINICS.find(c => c.id === clinicId);
+  if (!clinic) return;
+  if (!clinic.custom_prices) clinic.custom_prices = {};
+
+  const activeProducts = PRODUCTS.filter(p => !p.is_deleted && p.is_active);
+  const defaultRateVal = Math.round(p => p.selling_price * (1 + (clinic.discount_rate||0)/100));
+
+  const rows = activeProducts.map(p => {
+    const custom = clinic.custom_prices[p.id] || {};
+    const type = custom.type || 'default';
+    const val = custom.value ?? '';
+    const defPrice = Math.round(p.selling_price * (1 + (clinic.discount_rate||0)/100));
+
+    return `
+    <tr style="border-bottom:0.5px solid var(--border);">
+      <td style="padding:10px 6px;font-weight:500;font-size:13px;min-width:100px;">${p.name}</td>
+      <td style="padding:10px 6px;font-size:12px;color:var(--text3);text-align:right;white-space:nowrap;">${fmt(p.selling_price)}</td>
+      <td style="padding:10px 6px;font-size:12px;color:var(--text3);text-align:right;white-space:nowrap;">${fmt(defPrice)}</td>
+      <td style="padding:10px 6px;">
+        <select id="cp_type_${p.id}" onchange="updatePriceRow('${p.id}','${p.selling_price}')"
+          style="padding:4px 6px;font-size:12px;border:0.5px solid var(--border);border-radius:6px;background:var(--surface);margin-bottom:4px;width:100%;">
+          <option value="default" ${type==='default'?'selected':''}>기본 (거래처 할인율)</option>
+          <option value="amount"  ${type==='amount' ?'selected':''}>금액 직접 입력</option>
+          <option value="percent" ${type==='percent'?'selected':''}>% 조정 (기본단가 기준)</option>
+        </select>
+        <div id="cp_input_${p.id}">
+          ${type==='amount'  ? `<input class="input" type="number" id="cp_val_${p.id}" value="${val}" placeholder="금액 입력" style="width:100%;font-size:13px;text-align:right;" min="0" step="1000">` : ''}
+          ${type==='percent' ? `<input class="input" type="number" id="cp_val_${p.id}" value="${val}" placeholder="예: -10 또는 +5" style="width:100%;font-size:13px;text-align:right;" min="-99" max="200" step="1">` : ''}
+          ${type==='default' ? `<div style="font-size:11px;color:var(--text3);padding:4px 0;">→ ${fmt(defPrice)} 적용</div>` : ''}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  openModal(`💰 ${clinic.name} — 보철별 단가 설정`, `
+    <div style="font-size:12px;padding:8px 12px;background:var(--blue-l);border-radius:8px;margin-bottom:12px;line-height:1.6;">
+      <b>기본</b>: 거래처 할인율(${clinic.discount_rate||0}%) 자동 적용 &nbsp;|&nbsp;
+      <b>금액</b>: 직접 단가 입력 &nbsp;|&nbsp;
+      <b>%조정</b>: 기본단가에서 % 증감
+    </div>
+    <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="font-size:11px;color:var(--text3);border-bottom:1px solid var(--border);">
+          <th style="padding:6px;text-align:left;">보철명</th>
+          <th style="padding:6px;text-align:right;">기본단가</th>
+          <th style="padding:6px;text-align:right;">현재적용가</th>
+          <th style="padding:6px;text-align:left;min-width:160px;">설정</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+    </div>
+  `, `
+    <button class="btn btn-secondary" onclick="closeModal()">취소</button>
+    <button class="btn btn-primary" onclick="saveClinicPrices('${clinicId}')">💾 저장</button>
+  `, true);
+}
+
+function updatePriceRow(productId, basePrice) {
+  const type = document.getElementById(`cp_type_${productId}`)?.value;
+  const container = document.getElementById(`cp_input_${productId}`);
+  if (!container) return;
+  const base = parseInt(basePrice) || 0;
+
+  if (type === 'amount') {
+    container.innerHTML = `<input class="input" type="number" id="cp_val_${productId}" placeholder="금액 입력" style="width:100%;font-size:13px;text-align:right;" min="0" step="1000">`;
+  } else if (type === 'percent') {
+    container.innerHTML = `<input class="input" type="number" id="cp_val_${productId}" placeholder="예: -10 또는 +5" style="width:100%;font-size:13px;text-align:right;" min="-99" max="200" step="1">`;
+  } else {
+    const dr = 0; // 실제로는 clinic.discount_rate 참조하나 여기선 미리보기만
+    container.innerHTML = `<div style="font-size:11px;color:var(--text3);padding:4px 0;">거래처 할인율 자동 적용</div>`;
+  }
+}
+
+async function saveClinicPrices(clinicId) {
+  const clinic = CLINICS.find(c => c.id === clinicId);
+  if (!clinic) return;
+  if (!clinic.custom_prices) clinic.custom_prices = {};
+
+  const activeProducts = PRODUCTS.filter(p => !p.is_deleted && p.is_active);
+
+  activeProducts.forEach(p => {
+    const typeEl = document.getElementById(`cp_type_${p.id}`);
+    const valEl  = document.getElementById(`cp_val_${p.id}`);
+    const type = typeEl?.value || 'default';
+
+    if (type === 'default') {
+      delete clinic.custom_prices[p.id]; // 기본값 사용
+    } else if (type === 'amount') {
+      const val = parseInt(valEl?.value);
+      if (val > 0) {
+        clinic.custom_prices[p.id] = { type: 'amount', value: val };
+      } else {
+        delete clinic.custom_prices[p.id];
+      }
+    } else if (type === 'percent') {
+      const val = parseFloat(valEl?.value);
+      if (!isNaN(val)) {
+        clinic.custom_prices[p.id] = { type: 'percent', value: val };
+      } else {
+        delete clinic.custom_prices[p.id];
+      }
+    }
+  });
+
+  await autoSave('clinics', CLINICS);
+  closeModal();
+  showToast(`${clinic.name} 단가 설정이 저장되었습니다.`, 'success');
+  renderClinics();
+}
+
 function openClinicModal(id=null){
   const c=id?CLINICS.find(x=>x.id===id):null;
   openModal(c?'거래처 수정':'거래처 추가',`
@@ -2214,6 +2356,7 @@ async function saveClinicModal(editId){
   if(editId){
     const c=CLINICS.find(x=>x.id===editId);
     Object.assign(c,{name,owner,owner_name:owner,phone,email,address,discount_rate:dr});
+    if (!c.custom_prices) c.custom_prices = {};
 
     
     CASES.filter(cs=>cs.clinic_id===editId).forEach(cs=>{
@@ -2222,7 +2365,7 @@ async function saveClinicModal(editId){
 
     showToast('거래처 정보가 수정되었습니다.','success');
   } else {
-    CLINICS.push({id:`c${Date.now()}`,name,owner,owner_name:owner,phone,email,address,discount_rate:dr,is_active:true});
+    CLINICS.push({id:`c${Date.now()}`,name,owner,owner_name:owner,phone,email,address,discount_rate:dr,is_active:true,custom_prices:{}});
 
     showToast('거래처가 추가되었습니다.','success');
   }
@@ -2559,7 +2702,7 @@ async function saveMySettings(){
     } else {
       showToast('정보가 변경되었습니다.','success');
     }
-    await autoSave('cases', CASES);
+    await autoSave('users', USERS);
     document.getElementById('sidebarName').textContent = currentUser.name;
     document.getElementById('settings_password').value = '';
     renderSettings();
@@ -2800,7 +2943,7 @@ async function deleteUser(userId){
     const idx = USERS.findIndex(u=>u.id===userId);
     if(idx>-1){
       USERS.splice(idx,1);
-      await autoSave('cases', CASES);
+      await autoSave('users', USERS);
       showToast('사용자가 삭제되었습니다.','success');
       renderSettings();
     }
@@ -2894,3 +3037,4 @@ document.getElementById('loginPw').addEventListener('keypress', function(e) {
 </script>
 </body>
 </html>
+
