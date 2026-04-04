@@ -671,6 +671,54 @@ textarea.input{resize:vertical;min-height:80px;}
 .notice-banner-text{flex:1;line-height:1.5;}
 .notice-banner-close{background:none;border:none;cursor:pointer;font-size:16px;color:#92400e;padding:0;opacity:.6;}
 .notice-banner-close:hover{opacity:1;}
+/* ── 거래처 카드 ── */
+.clinic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-top:4px;}
+.clinic-card-new{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;transition:.15s;}
+.clinic-card-new:hover{border-color:var(--primary);transform:translateY(-1px);}
+.clinic-card-new.inactive{opacity:.6;}
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.cc-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.cc-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+.cc-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;white-space:nowrap;}
+.cc-badge-red{background:var(--red-l);color:var(--red);}
+.cc-badge-orange{background:var(--yellow-l);color:var(--yellow);}
+.cc-badge-green{background:var(--green-l);color:var(--green);}
+.cc-badge-gray{background:var(--surface2);color:var(--text3);}
+.cc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.cc-stat{background:var(--surface2);border-radius:8px;padding:8px 10px;text-align:center;}
+.cc-stat-val{font-size:16px;font-weight:800;margin-bottom:2px;}
+.cc-stat-label{font-size:9px;color:var(--text3);}
+.cc-urgent{background:var(--red-l);border-radius:8px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:#991b1b;line-height:1.7;}
+.cc-urgent-title{font-weight:700;margin-bottom:3px;font-size:12px;}
+.cc-info{font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.7;}
+.cc-info a{color:var(--primary);text-decoration:none;}
+.cc-info a:hover{text-decoration:underline;}
+.cc-memo{background:var(--yellow-l);border-radius:7px;padding:8px 11px;font-size:11px;color:#92400e;margin-bottom:10px;line-height:1.6;}
+.memo-page-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;transition:.15s;}
+.memo-page-card:hover{border-color:var(--primary);}
+.memo-page-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.memo-clinic-name{font-size:14px;font-weight:700;}
+.memo-type-badge{font-size:10px;padding:2px 9px;border-radius:20px;font-weight:600;}
+.memo-type-public{background:#eff6ff;color:#1d4ed8;}
+.memo-type-private{background:#fffbeb;color:#92400e;}
+.memo-type-none{background:var(--surface2);color:var(--text3);}
+.memo-content-pub{border-left:3px solid var(--blue);background:var(--blue-l);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#1e3a5f;line-height:1.7;margin-bottom:6px;white-space:pre-wrap;}
+.memo-content-priv{border-left:3px solid var(--yellow);background:var(--yellow-l);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:#78350f;line-height:1.7;margin-bottom:6px;white-space:pre-wrap;}
+.memo-content-empty{font-size:12px;color:var(--text3);font-style:italic;padding:6px 0;}
+.memo-meta{font-size:10px;color:var(--text3);display:flex;justify-content:space-between;align-items:center;}
+.memo-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;}
+.memo-toggle-track{position:relative;width:36px;height:20px;border-radius:10px;transition:background .2s;flex-shrink:0;}
+.memo-toggle-track.on{background:var(--blue);}
+.memo-toggle-track.off{background:var(--border);}
+.memo-toggle-thumb{position:absolute;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;}
+.memo-toggle-track.on .memo-toggle-thumb{left:18px;}
+.memo-toggle-track.off .memo-toggle-thumb{left:2px;}
+.cc-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.cc-chart{margin-bottom:12px;}
+.cc-chart-bars{display:flex;align-items:flex-end;gap:3px;height:48px;}
+.cc-bar-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;}
+.cc-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;}
+.cc-bar-label{font-size:8px;color:var(--text3);}
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px;}
 .gallery-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:.15s;}
 .gallery-card:hover{border-color:var(--blue);transform:translateY(-2px);}
@@ -788,6 +836,9 @@ textarea.input{resize:vertical;min-height:80px;}
       <div class="nav-section admin-only">거래처</div>
       <button class="nav-item admin-only" data-page="clinics" onclick="navigate('clinics')">
         <span class="icon">🏢</span> 거래처 관리
+      </button>
+      <button class="nav-item" data-page="clinicmemo" onclick="navigate('clinicmemo')" id="navClinicMemo">
+        <span class="icon">📝</span> 거래처 메모
       </button>
       <div class="nav-section">사진</div>
       <button class="nav-item" data-page="gallery" onclick="navigate('gallery')">
@@ -1428,6 +1479,15 @@ function initApp(){
   document.getElementById('app').classList.add('logged-in');
   document.getElementById('sidebarName').textContent=currentUser.name;
   showNoticeBanner();
+  // 거래처 메모 메뉴 - 치과 사용자는 공개 메모 있을 때만 표시
+  const memoNavBtn = document.getElementById('navClinicMemo');
+  if(memoNavBtn){
+    if(currentUser.role !== 'admin'){
+      const myClinic = CLINICS.find(c=>c.id===currentUser.clinic_id);
+      const hasPublicMemo = myClinic && myClinic.memo && myClinic.memo_is_public;
+      memoNavBtn.style.display = hasPublicMemo ? '' : 'none';
+    }
+  }
   document.getElementById('sidebarRole').textContent=currentUser.role==='admin'?'관리자':'치과 사용자';
   document.getElementById('sidebarAvatar').textContent=currentUser.role==='admin'?'👨‍💼':'🏥';
   document.getElementById('topbarBadge').textContent=currentUser.role==='admin'?'🔴 관리자':'🔵 '+currentUser.name;
@@ -1449,7 +1509,7 @@ function initApp(){
 //  NAVIGATION
 // ══════════════════════════════════════════════════
 
-const PAGE_TITLES={dashboard:'📋 진행현황',stats:'📊 통계 대시보드',sales:'매출 분석',bep:'📈 경영 분석',fixedcosts:'고정비 관리',products:'보철 / 원가 관리',clinics:'거래처 관리',gallery:'📸 사진 갤러리',notice:'📢 공지사항 관리',settings:'설정'};
+const PAGE_TITLES={dashboard:'📋 진행현황',stats:'📊 통계 대시보드',sales:'매출 분석',bep:'📈 경영 분석',fixedcosts:'고정비 관리',products:'보철 / 원가 관리',clinics:'거래처 관리',clinicmemo:'📝 거래처 메모',gallery:'📸 사진 갤러리',notice:'📢 공지사항 관리',settings:'설정'};
 
 function navigate(page){
   if(currentUser.role!=='admin'&&['sales','bep','fixedcosts','products','clinics','notice'].includes(page)){
@@ -1475,6 +1535,7 @@ function navigate(page){
     case 'products': renderProducts();break;
     case 'clinics': renderClinics();break;
     case 'gallery': renderGallery();break;
+    case 'clinicmemo': renderClinicMemo();break;
     case 'notice': renderNotice();break;
     case 'settings': renderSettings();break;
   }
@@ -2049,7 +2110,7 @@ async function changeCaseStatus(id,status){
     const product=PRODUCTS.find(p=>p.id===c.product_id);
     PRODUCTION_LOG.push({id:`pl_${Date.now()}`,case_id:c.id,product_id:c.product_id,product_name:c.product_name,clinic_id:c.clinic_id,clinic_name:c.clinic_name,quantity:1,selling_price:c.price,material_cost:product?.material_cost||0,final_price:c.final_price,production_date:new Date().toISOString().slice(0,10)});
 
-    autoSave();  // PRODUCTION_LOG 저장
+    autoSave('production_log', PRODUCTION_LOG);  // PRODUCTION_LOG Supabase+localStorage 저장
   }
   await autoSave('cases', CASES);
   openCaseDetail(id);
@@ -2076,7 +2137,7 @@ function openCaseModal(id=null){
       <label>거래처 *</label>
       <select class="select" id="cm_clinic">
         <option value="">선택</option>
-        ${CLINICS.map(cl=>`<option value="${cl.id}" ${c?.clinic_id===cl.id?'selected':''}>${cl.name}</option>`).join('')}
+        ${CLINICS.filter(cl=>cl.is_active||(c&&cl.id===c.clinic_id)).map(cl=>`<option value="${cl.id}" ${c?.clinic_id===cl.id?'selected':''}>${cl.name}${!cl.is_active?' (비활성)':''}</option>`).join('')}
       </select>
     </div>
     <div class="form-group">
@@ -2888,36 +2949,304 @@ async function deleteProduct(id){
 // ══════════════════════════════════════════════════
 
 function renderClinics(){
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate()+1);
+  const todayStr = today.toISOString().slice(0,10);
+  const tomorrowStr = tomorrow.toISOString().slice(0,10);
+  const thisMonth = today.toISOString().slice(0,7);
+
+  const cards = CLINICS.map(c => {
+    // ── 이번달 케이스 통계 ──
+    const monthCases = CASES.filter(cs => cs.clinic_id === c.id && (cs.receive_date||'').startsWith(thisMonth));
+    const doneCases  = monthCases.filter(cs => cs.status === 'done');
+    const activeCases = CASES.filter(cs => cs.clinic_id === c.id && cs.status !== 'done');
+    const pendingAmt = activeCases.reduce((s, cs) => s + (cs.final_price||0), 0);
+
+    // ── 납기 임박 케이스 ──
+    const todayDue    = activeCases.filter(cs => cs.ship_date === todayStr);
+    const tomorrowDue = activeCases.filter(cs => cs.ship_date === tomorrowStr);
+    const urgentAll   = [...todayDue, ...tomorrowDue];
+
+    // ── 납기 뱃지 ──
+    let urgentBadges = '';
+    if(todayDue.length)    urgentBadges += `<span class="cc-badge cc-badge-red">🚨 오늘 ${todayDue.length}건</span>`;
+    if(tomorrowDue.length) urgentBadges += `<span class="cc-badge cc-badge-orange">⏰ 내일 ${tomorrowDue.length}건</span>`;
+
+    // ── 납기 임박 케이스 목록 ──
+    const urgentList = urgentAll.length > 0 ? `
+      <div class="cc-urgent">
+        <div class="cc-urgent-title">📋 납기 임박 케이스</div>
+        ${urgentAll.map(cs=>`${cs.case_number} · ${cs.patient_name} · ${cs.product_name} · <b>${cs.ship_date===todayStr?'오늘':'내일'}</b>`).join('<br>')}
+      </div>` : '';
+
+    // ── 메모 ──
+    const memoBox = c.memo ? `
+      <div class="cc-memo" style="border-left:3px solid ${c.memo_is_public?'var(--blue)':'var(--yellow)'};background:${c.memo_is_public?'var(--blue-l)':'var(--yellow-l)'};color:${c.memo_is_public?'#1e3a5f':'#92400e'};">
+        <span style="font-size:10px;font-weight:700;margin-right:6px;">${c.memo_is_public?'🌐 공개':'🔒 내부'}</span>${c.memo}
+      </div>` : '';
+
+    // ── 연락처 ──
+    const phoneLink = c.phone
+      ? `<a href="tel:${c.phone}">${c.phone}</a>`
+      : '<span style="color:var(--text3);">-</span>';
+
+    // ── 최근 6개월 매출 미니차트 ──
+    const months6 = [];
+    for(let i=5;i>=0;i--){
+      const d = new Date(today.getFullYear(), today.getMonth()-i, 1);
+      months6.push(d.toISOString().slice(0,7));
+    }
+    const monthRevs = months6.map(m =>
+      CASES.filter(cs=>cs.clinic_id===c.id && cs.status==='done' && (cs.receive_date||'').startsWith(m))
+           .reduce((s,cs)=>s+(cs.final_price||0),0)
+    );
+    const maxRev = Math.max(...monthRevs, 1);
+    const thisMonthRev = monthRevs[5];
+    const prevMonthRev = monthRevs[4];
+    const momChange = prevMonthRev > 0 ? Math.round((thisMonthRev - prevMonthRev) / prevMonthRev * 100) : null;
+    const chartBars = months6.map((m,i) => {
+      const h = Math.round((monthRevs[i]/maxRev)*44);
+      const isThis = i===5;
+      const color = isThis ? 'var(--green)' : 'var(--blue)';
+      return `<div class="cc-bar-wrap">
+        <div class="cc-bar" style="height:${h||2}px;background:${color};opacity:${isThis?1:.5};"></div>
+        <div class="cc-bar-label">${m.slice(5)}월</div>
+      </div>`;
+    }).join('');
+    const momText = momChange !== null
+      ? `<span style="font-size:10px;color:${momChange>=0?'var(--green)':'var(--red)'};">${momChange>=0?'+':''}${momChange}%</span>`
+      : '';
+
+    return `
+    <div class="clinic-card-new ${c.is_active?'':'inactive'}">
+      <div class="cc-top">
+        <div class="cc-name">🏥 ${c.name}
+          ${!c.is_active?'<span class="cc-badge cc-badge-gray">비활성</span>':''}
+        </div>
+        <div class="cc-badges">
+          ${urgentBadges}
+          <span class="cc-badge ${c.discount_rate<0?'cc-badge-red':c.discount_rate>0?'cc-badge-green':'cc-badge-gray'}">${c.discount_rate>0?'+':''}${c.discount_rate}%</span>
+        </div>
+      </div>
+
+      <div class="cc-stats">
+        <div class="cc-stat">
+          <div class="cc-stat-val" style="color:var(--blue);">${monthCases.length}</div>
+          <div class="cc-stat-label">이번달 전체</div>
+        </div>
+        <div class="cc-stat">
+          <div class="cc-stat-val" style="color:var(--green);">${doneCases.length}</div>
+          <div class="cc-stat-label">완료</div>
+        </div>
+        <div class="cc-stat">
+          <div class="cc-stat-val" style="color:var(--yellow);font-size:12px;">${pendingAmt>0?(pendingAmt/10000).toFixed(0)+'만':'0'}</div>
+          <div class="cc-stat-label">진행중 금액</div>
+        </div>
+      </div>
+
+      ${urgentList}
+      ${memoBox}
+
+      <div class="cc-info">
+        Dr. ${c.owner||'-'} &nbsp;·&nbsp; ${phoneLink}
+        ${c.email?`&nbsp;·&nbsp; ${c.email}`:''}
+        ${c.address?`<br>${c.address}`:''}
+      </div>
+
+      <div class="cc-chart">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <div style="font-size:10px;color:var(--text3);">최근 6개월 완료 매출</div>
+          <div style="font-size:10px;">${thisMonthRev>0?(thisMonthRev/10000).toFixed(0)+'만원':'-'} ${momText}</div>
+        </div>
+        <div class="cc-chart-bars">${chartBars}</div>
+      </div>
+
+      <div class="cc-actions">
+        <button class="btn btn-secondary btn-sm" onclick="goClinicCases('${c.id}')">케이스 보기 →</button>
+        <button class="btn btn-secondary btn-sm" onclick="openClinicModal('${c.id}')">✏️ 수정</button>
+        <button class="btn btn-secondary btn-sm" style="color:var(--blue);" onclick="openClinicPriceModal('${c.id}')">${Object.keys(c.custom_prices||{}).length>0?'💰 단가✓':'💰 단가'}</button>
+        <button class="btn btn-secondary btn-sm" onclick="printClinicStatement('${c.id}')">🧾 명세서</button>
+      </div>
+    </div>`;
+  }).join('');
+
   document.getElementById('pageContent').innerHTML=`
-  <div class="flex justify-between items-center" style="margin-bottom:20px;">
-    <div><div style="font-size:16px;font-weight:700;">거래처 관리</div>
-    <div style="font-size:13px;color:var(--text3);margin-top:2px;">거래처별 할인율, 연락처 관리</div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div>
+      <div style="font-size:16px;font-weight:700;">거래처 관리</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:2px;">총 ${CLINICS.length}개 거래처 · 이번달 기준</div>
+    </div>
     <button class="btn btn-primary" onclick="openClinicModal()">＋ 거래처 추가</button>
   </div>
-  <div class="card">
-    <div class="table-wrap">
-    <table class="table">
-      <thead><tr><th>거래처명</th><th>원장</th><th>전화</th><th>이메일</th><th>할인율</th><th>상태</th><th></th></tr></thead>
-      <tbody>
-      ${CLINICS.map(c=>`<tr>
-        <td style="font-weight:700;">🏥 ${c.name}</td>
-        <td>Dr. ${c.owner}</td>
-        <td class="font-mono" style="font-size:12px;">${c.phone}</td>
-        <td style="font-size:12px;color:var(--text3);">${c.email}</td>
-        <td><span style="font-weight:700;color:${c.discount_rate<0?'var(--red)':c.discount_rate>0?'var(--green)':'var(--text3)'};">${c.discount_rate>0?'+':''}${c.discount_rate}%</span></td>
-        <td><span class="badge ${c.is_active?'badge-done':'badge-working'}">${c.is_active?'활성':'비활성'}</span></td>
-        <td>
-          <div class="flex gap-1">
-            <button class="btn btn-secondary btn-xs" onclick="openClinicModal('${c.id}')">✏️ 수정</button>
-              <button class="btn btn-secondary btn-xs" onclick="openClinicPriceModal('${c.id}')" style="color:var(--blue);">${Object.keys(c.custom_prices||{}).length > 0 ? '💰 단가✓' : '💰 단가'}</button>
-          </div>
-        </td>
-      </tr>`).join('')}
-      </tbody>
-    </table>
-    </div>
-  </div>`;
+  <div class="clinic-grid">${cards}</div>`;
 }
+// ── 거래처 케이스 보기 (대시보드 + 거래처 필터 연동) ──
+function goClinicCases(clinicId){
+  navigate('dashboard');
+  // 렌더링 후 필터 적용
+  setTimeout(()=>{
+    const sel = document.getElementById('dashClinicFilter');
+    if(sel){ sel.value = clinicId; renderCaseTable(); }
+  }, 100);
+}
+
+// ── 거래처별 월간 명세서 출력 ──
+function printClinicStatement(clinicId){
+  const clinic = CLINICS.find(c=>c.id===clinicId);
+  if(!clinic) return;
+
+  // 월 선택 팝업
+  const today = new Date();
+  const months = [];
+  for(let i=0;i<6;i++){
+    const d = new Date(today.getFullYear(), today.getMonth()-i, 1);
+    months.push(d.toISOString().slice(0,7));
+  }
+
+  openModal(`🧾 ${clinic.name} 명세서 출력`,`
+    <div class="form-group">
+      <label>출력할 월 선택</label>
+      <select class="select" id="stmt_month">
+        ${months.map(m=>`<option value="${m}">${m}</option>`).join('')}
+      </select>
+    </div>
+    <div style="font-size:12px;color:var(--text3);margin-top:6px;">선택한 월의 <b>완료</b> 케이스만 출력됩니다.</div>
+  `,`
+    <button class="btn btn-secondary" onclick="closeModal()">취소</button>
+    <button class="btn btn-primary" onclick="doPrintStatement('${clinicId}')">🖨️ 출력</button>
+  `);
+}
+
+function doPrintStatement(clinicId){
+  const clinic = CLINICS.find(c=>c.id===clinicId);
+  const month  = document.getElementById('stmt_month')?.value;
+  if(!clinic||!month) return;
+
+  const cases = CASES.filter(cs=>
+    cs.clinic_id===clinicId &&
+    cs.status==='done' &&
+    (cs.receive_date||'').startsWith(month)
+  ).sort((a,b)=>new Date(a.receive_date)-new Date(b.receive_date));
+
+  const total = cases.reduce((s,c)=>s+(c.final_price||0),0);
+  const today = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+  const monthLabel = month.replace('-','년 ')+'월';
+
+  const rows = cases.map((c,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td class="mono">${c.case_number}</td>
+      <td>${c.patient_name}</td>
+      <td>${c.product_name}</td>
+      <td>${c.tooth_number||'-'}</td>
+      <td>${c.receive_date}</td>
+      <td style="text-align:right;font-weight:600;">${(c.final_price||0).toLocaleString()}원</td>
+    </tr>`).join('');
+
+  const win = window.open('','_blank','width=900,height=700');
+  win.document.write(`<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<title>납품명세서 - ${clinic.name} ${monthLabel}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR','맑은 고딕',sans-serif;color:#111;font-size:12px;padding:0;}
+.page{width:210mm;min-height:297mm;margin:0 auto;padding:14mm 16mm;}
+.doc-header{display:flex;justify-content:space-between;align-items:stretch;margin-bottom:8mm;border:2px solid #0f172a;border-radius:4px;overflow:hidden;}
+.lab-box{padding:6mm 8mm;background:#0f172a;color:#fff;min-width:55mm;}
+.lab-logo{font-size:20px;font-weight:900;margin-bottom:3px;}
+.lab-logo span{color:#60a5fa;}
+.lab-sub{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:1px;margin-bottom:8px;}
+.lab-info{font-size:9px;color:rgba(255,255,255,.6);line-height:1.8;}
+.title-box{flex:1;padding:6mm 8mm;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;}
+.doc-title{font-size:22px;font-weight:900;color:#0f172a;letter-spacing:1px;}
+.doc-to{font-size:13px;font-weight:700;margin-top:4px;}
+.doc-month{font-size:11px;color:#64748b;margin-top:3px;}
+.doc-date{font-size:10px;color:#94a3b8;margin-top:2px;}
+.section-title{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#64748b;font-weight:700;margin-bottom:3mm;padding-bottom:1.5mm;border-bottom:1px solid #e2e8f0;}
+table{width:100%;border-collapse:collapse;margin-bottom:6mm;}
+thead tr{background:#f8fafc;}
+th{padding:7px 10px;text-align:left;font-size:10px;color:#64748b;border:1px solid #e2e8f0;font-weight:600;}
+td{padding:8px 10px;border:1px solid #e2e8f0;font-size:11px;}
+.mono{font-family:monospace;font-size:11px;}
+.total-row{background:#0f172a;color:#fff;}
+.total-row td{border-color:#0f172a;font-weight:700;font-size:13px;}
+.total-amt{font-size:17px;font-weight:900;text-align:right;}
+.sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:6mm;margin-top:6mm;}
+.sign-box{border:1px solid #e2e8f0;border-radius:4px;padding:4mm;min-height:24mm;position:relative;}
+.sign-title{font-size:10px;font-weight:700;margin-bottom:2mm;}
+.sign-stamp{width:18mm;height:18mm;border:1px dashed #cbd5e1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#cbd5e1;position:absolute;right:4mm;bottom:4mm;}
+.doc-footer{margin-top:6mm;padding-top:3mm;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;font-size:8px;color:#94a3b8;}
+.empty{text-align:center;padding:16mm;color:#94a3b8;font-size:13px;}
+@media print{body{padding:0;}.page{padding:10mm 12mm;width:100%;}@page{size:A4;margin:0;}}
+</style></head>
+<body><div class="page">
+<div class="doc-header">
+  <div class="lab-box">
+    <div class="lab-logo">${LAB_INFO.name||'이룸덴탈랩'}</div>
+    <div class="lab-sub">Dental Laboratory</div>
+    <div class="lab-info">
+      ${LAB_INFO.phone?'Tel: '+LAB_INFO.phone+'<br>':''}
+      ${LAB_INFO.fax?'Fax: '+LAB_INFO.fax+'<br>':''}
+      ${LAB_INFO.address||''}
+    </div>
+  </div>
+  <div class="title-box">
+    <div class="doc-title">납품 명세서</div>
+    <div class="doc-to">수신: ${clinic.name}</div>
+    <div class="doc-month">${monthLabel} 납품 내역</div>
+    <div class="doc-date">발행일 ${today}</div>
+  </div>
+</div>
+
+<div class="section-title">납품 내역 (${cases.length}건)</div>
+${cases.length > 0 ? `
+<table>
+  <thead><tr>
+    <th style="width:28px;">No</th>
+    <th style="width:110px;">케이스번호</th>
+    <th>환자명</th>
+    <th>보철명</th>
+    <th>치아번호</th>
+    <th>접수일</th>
+    <th style="text-align:right;">금액</th>
+  </tr></thead>
+  <tbody>
+    ${rows}
+    <tr class="total-row">
+      <td colspan="6" style="text-align:right;color:rgba(255,255,255,.7);">합계 ${cases.length}건</td>
+      <td class="total-amt">${total.toLocaleString()}원</td>
+    </tr>
+  </tbody>
+</table>` : `<div class="empty">이번달 완료된 케이스가 없습니다.</div>`}
+
+<div class="sign-grid">
+  <div class="sign-box">
+    <div class="sign-title">공급자 (이룸덴탈랩)</div>
+    <div style="font-size:10px;color:#64748b;margin-top:4mm;">대표자</div>
+    <div style="border-bottom:1px solid #e2e8f0;margin-top:10mm;">&nbsp;</div>
+    <div class="sign-stamp">(인)</div>
+  </div>
+  <div class="sign-box">
+    <div class="sign-title">수신자 (${clinic.name})</div>
+    <div style="font-size:10px;color:#64748b;margin-top:4mm;">원장</div>
+    <div style="border-bottom:1px solid #e2e8f0;margin-top:10mm;">&nbsp;</div>
+    <div class="sign-stamp">(인)</div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <span>${LAB_INFO.name||'이룸덴탈랩'} · 납품 명세서</span>
+  <span>출력: ${new Date().toLocaleString('ko-KR')}</span>
+</div>
+</div></body></html>`);
+  win.document.close();
+  closeModal();
+  setTimeout(()=>{ try{win.print();}catch(e){} }, 800);
+}
+
 // 거래처별 보철 개별 단가 설정
 function openClinicPriceModal(clinicId) {
   const clinic = CLINICS.find(c => c.id === clinicId);
@@ -3040,12 +3369,47 @@ function openClinicModal(id=null){
     <label>할인율 % <small style="color:var(--text3);">(-99 ~ +99, 음수=할인, 양수=할증)</small></label>
     <input class="input" type="number" id="cl_discount" value="${c?.discount_rate||0}" min="-99" max="99" step="1" oninput="updateClinicPreview()">
   </div>
+  <div class="form-group">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <label style="margin-bottom:0;">메모</label>
+      <label class="memo-toggle" onclick="toggleMemoPublic()" title="공개 여부">
+        <div class="memo-toggle-track ${c?.memo_is_public?'on':'off'}" id="cl_memo_toggle">
+          <div class="memo-toggle-thumb"></div>
+        </div>
+        <span id="cl_memo_toggle_label" style="font-size:11px;color:var(--text3);">${c?.memo_is_public?'🌐 치과에도 공개':'🔒 내부 메모'}</span>
+      </label>
+    </div>
+    <input type="hidden" id="cl_memo_is_public" value="${c?.memo_is_public?'1':'0'}">
+    <textarea class="input" id="cl_memo" rows="2" placeholder="내부 메모 또는 치과에 공개할 내용...">${c?.memo||''}</textarea>
+    <div style="font-size:11px;color:var(--text3);margin-top:4px;" id="cl_memo_hint">
+      ${c?.memo_is_public?'🌐 해당 치과 사용자가 로그인 후 볼 수 있습니다.':'🔒 관리자만 볼 수 있습니다. 토글로 공개 전환 가능.'}
+    </div>
+  </div>
   <div id="cl_preview" style="background:var(--blue-l);border-radius:8px;padding:10px 14px;font-size:13px;"></div>
   `,
   `<button class="btn btn-secondary" onclick="closeModal()">취소</button>
    <button class="btn btn-primary" onclick="saveClinicModal('${id||''}')">💾 저장</button>`);
   updateClinicPreview();
 }
+function toggleMemoPublic(){
+  const hidden = document.getElementById('cl_memo_is_public');
+  const track  = document.getElementById('cl_memo_toggle');
+  const label  = document.getElementById('cl_memo_toggle_label');
+  const hint   = document.getElementById('cl_memo_hint');
+  if(!hidden) return;
+  const now = hidden.value === '1';
+  hidden.value = now ? '0' : '1';
+  if(now){
+    track.className = 'memo-toggle-track off';
+    label.textContent = '🔒 내부 메모';
+    if(hint) hint.textContent = '🔒 관리자만 볼 수 있습니다. 토글로 공개 전환 가능.';
+  } else {
+    track.className = 'memo-toggle-track on';
+    label.textContent = '🌐 치과에도 공개';
+    if(hint) hint.textContent = '🌐 해당 치과 사용자가 로그인 후 볼 수 있습니다.';
+  }
+}
+
 function updateClinicPreview(){
   const dr=parseFloat(document.getElementById('cl_discount')?.value)||0;
   const prev=document.getElementById('cl_preview');
@@ -3066,7 +3430,9 @@ async function saveClinicModal(editId){
   
   if(editId){
     const c=CLINICS.find(x=>x.id===editId);
-    Object.assign(c,{name,owner,owner_name:owner,phone,email,address,discount_rate:dr});
+    const memo=document.getElementById('cl_memo')?.value.trim()||'';
+    const memo_is_public=document.getElementById('cl_memo_is_public')?.value==='1';
+    Object.assign(c,{name,owner,owner_name:owner,phone,email,address,discount_rate:dr,memo,memo_is_public});
     if (!c.custom_prices) c.custom_prices = {};
 
     
@@ -3076,7 +3442,9 @@ async function saveClinicModal(editId){
 
     showToast('거래처 정보가 수정되었습니다.','success');
   } else {
-    CLINICS.push({id:`c${Date.now()}`,name,owner,owner_name:owner,phone,email,address,discount_rate:dr,is_active:true,custom_prices:{}});
+    const memo=document.getElementById('cl_memo')?.value.trim()||'';
+    const memo_is_public=document.getElementById('cl_memo_is_public')?.value==='1';
+    CLINICS.push({id:`c${Date.now()}`,name,owner,owner_name:owner,phone,email,address,discount_rate:dr,memo,memo_is_public,is_active:true,custom_prices:{}});
 
     showToast('거래처가 추가되었습니다.','success');
   }
@@ -3226,6 +3594,158 @@ function dismissNotice(){
   if(banner) banner.classList.remove('visible');
 }
 
+// ══════════════════════════════════════════════════
+//  거래처 메모 페이지
+// ══════════════════════════════════════════════════
+function renderClinicMemo(){
+  const isAdmin = currentUser.role === 'admin';
+
+  // 치과 사용자: 본인 거래처 공개 메모만
+  // 관리자: 전체 거래처 공개+내부 모두
+  const clinicList = isAdmin
+    ? CLINICS
+    : CLINICS.filter(c => c.id === currentUser.clinic_id);
+
+  const cards = clinicList.map(c => {
+    const hasMemo = c.memo && c.memo.trim();
+    const isPublic = !!c.memo_is_public;
+
+    // 치과 사용자는 내부 메모 비표시
+    if(!isAdmin && hasMemo && !isPublic) return '';
+    // 치과 사용자에게 메모 없는 다른 거래처 카드 미표시
+    if(!isAdmin && !hasMemo) return '';
+
+    const memoHtml = hasMemo
+      ? (isAdmin
+          ? `<div class="${isPublic?'memo-content-pub':'memo-content-priv'}">${c.memo}</div>`
+          : (isPublic ? `<div class="memo-content-pub">${c.memo}</div>` : '')
+        )
+      : `<div class="memo-content-empty">등록된 메모가 없습니다.</div>`;
+
+    const badgeHtml = hasMemo
+      ? (isPublic
+          ? `<span class="memo-type-badge memo-type-public">🌐 공개</span>`
+          : `<span class="memo-type-badge memo-type-private">🔒 내부</span>`)
+      : `<span class="memo-type-badge memo-type-none">메모 없음</span>`;
+
+    const editBtn = isAdmin
+      ? `<button class="btn btn-ghost btn-icon btn-sm" onclick="openClinicModal('${c.id}')" title="메모 수정">✏️</button>`
+      : '';
+
+    // 이번달 진행중 케이스 수 (간단 정보)
+    const today = new Date().toISOString().slice(0,7);
+    const activeCnt = CASES.filter(cs => cs.clinic_id === c.id && cs.status !== 'done' && (cs.receive_date||'').startsWith(today)).length;
+
+    return `
+    <div class="memo-page-card">
+      <div class="memo-page-top">
+        <div class="memo-clinic-name">🏥 ${c.name}
+          ${activeCnt > 0 ? `<span style="font-size:11px;color:var(--blue);font-weight:400;margin-left:6px;">진행중 ${activeCnt}건</span>` : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${badgeHtml}
+          ${editBtn}
+        </div>
+      </div>
+      ${memoHtml}
+      <div class="memo-meta">
+        <span>${c.phone ? `📞 ${c.phone}` : ''}</span>
+        <span>${c.owner ? `Dr. ${c.owner}` : ''}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const emptyMsg = !cards.replace(/\s/g,'')
+    ? `<div style="text-align:center;padding:48px;color:var(--text3);">
+        <div style="font-size:32px;margin-bottom:12px;">📝</div>
+        <div style="font-size:14px;font-weight:600;">등록된 메모가 없습니다</div>
+        <div style="font-size:12px;margin-top:6px;">${isAdmin?'거래처 관리에서 메모를 등록할 수 있습니다.':'공개된 메모가 없습니다.'}</div>
+      </div>`
+    : '';
+
+  // 메모 있는 거래처 수 카운트
+  const totalWithMemo = isAdmin
+    ? CLINICS.filter(c=>c.memo&&c.memo.trim()).length
+    : CLINICS.filter(c=>c.id===currentUser.clinic_id && c.memo_is_public && c.memo).length;
+
+  const publicCnt  = isAdmin ? CLINICS.filter(c=>c.memo&&c.memo_is_public).length : 0;
+  const privateCnt = isAdmin ? CLINICS.filter(c=>c.memo&&!c.memo_is_public).length : 0;
+
+  document.getElementById('pageContent').innerHTML=`
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <div style="font-size:16px;font-weight:700;">📝 거래처 메모</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:2px;">
+        ${isAdmin
+          ? `전체 ${CLINICS.length}개 거래처 · 메모 ${totalWithMemo}개 (🌐공개 ${publicCnt} / 🔒내부 ${privateCnt})`
+          : `우리 치과 공개 메모`}
+      </div>
+    </div>
+    ${isAdmin ? `<button class="btn btn-primary btn-sm" onclick="navigate('clinics')">거래처 관리 →</button>` : ''}
+  </div>
+
+  ${isAdmin ? `
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <button class="btn btn-secondary btn-sm" onclick="filterMemo('all')" id="memoFilterAll" style="font-weight:700;">전체 (${CLINICS.length})</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterMemo('public')" id="memoFilterPublic">🌐 공개 (${publicCnt})</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterMemo('private')" id="memoFilterPrivate">🔒 내부 (${privateCnt})</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterMemo('none')" id="memoFilterNone">메모없음 (${CLINICS.length-totalWithMemo})</button>
+  </div>` : ''}
+
+  <div id="memoListWrap">
+    ${cards || emptyMsg}
+  </div>`;
+}
+
+function filterMemo(type){
+  // 필터 버튼 활성화
+  ['all','public','private','none'].forEach(t=>{
+    const btn = document.getElementById('memoFilter'+t.charAt(0).toUpperCase()+t.slice(1));
+    if(btn) btn.style.fontWeight = t===type?'700':'400';
+  });
+
+  const wrap = document.getElementById('memoListWrap');
+  if(!wrap) return;
+
+  const cards = CLINICS.map(c=>{
+    const hasMemo = c.memo && c.memo.trim();
+    const isPublic = !!c.memo_is_public;
+    // 필터 조건
+    if(type==='public'  && !(hasMemo && isPublic))  return '';
+    if(type==='private' && !(hasMemo && !isPublic)) return '';
+    if(type==='none'    && hasMemo)                 return '';
+
+    const memoHtml = hasMemo
+      ? `<div class="${isPublic?'memo-content-pub':'memo-content-priv'}">${c.memo}</div>`
+      : `<div class="memo-content-empty">등록된 메모가 없습니다.</div>`;
+    const badgeHtml = hasMemo
+      ? (isPublic?`<span class="memo-type-badge memo-type-public">🌐 공개</span>`
+                 :`<span class="memo-type-badge memo-type-private">🔒 내부</span>`)
+      : `<span class="memo-type-badge memo-type-none">메모 없음</span>`;
+    const activeCnt = CASES.filter(cs=>cs.clinic_id===c.id&&cs.status!=='done').length;
+
+    return `
+    <div class="memo-page-card">
+      <div class="memo-page-top">
+        <div class="memo-clinic-name">🏥 ${c.name}
+          ${activeCnt>0?`<span style="font-size:11px;color:var(--blue);font-weight:400;margin-left:6px;">진행중 ${activeCnt}건</span>`:''}
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${badgeHtml}
+          <button class="btn btn-ghost btn-icon btn-sm" onclick="openClinicModal('${c.id}')" title="메모 수정">✏️</button>
+        </div>
+      </div>
+      ${memoHtml}
+      <div class="memo-meta">
+        <span>${c.phone?`📞 ${c.phone}`:''}</span>
+        <span>${c.owner?`Dr. ${c.owner}`:''}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = cards || `<div style="text-align:center;padding:32px;color:var(--text3);">해당 항목이 없습니다.</div>`;
+}
+
 function renderNotice(){
   document.getElementById('pageContent').innerHTML = `
   <div style="max-width:700px;">
@@ -3271,7 +3791,7 @@ async function saveNotice(){
   const active = document.getElementById('notice_active').checked;
   NOTICE = { text, active, updated_at: new Date().toISOString() };
   saveToLocal('notice', NOTICE);
-  await autoSave('settings', {notice: NOTICE});
+  // settings는 localStorage만 사용 (Supabase settings 테이블 없음)
   showNoticeBanner();
   if(!active) dismissNotice();
   showToast('공지사항이 저장되었습니다.', 'success');
@@ -3501,7 +4021,7 @@ async function saveLabInfo(){
 
   LAB_INFO = { name, phone, fax, email, address };
   saveToLocal('lab_info', LAB_INFO);
-  await autoSave('settings', { lab_info: LAB_INFO });
+  // settings는 localStorage만 사용 (Supabase settings 테이블 없음)
   showToast('기공소 정보가 저장되었습니다.','success');
   renderSettings();
 }
