@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dental_portal_v5.html" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/).*)", "destination": "/dental_portal_v5.html" }
   ],
   "headers": [
     {
