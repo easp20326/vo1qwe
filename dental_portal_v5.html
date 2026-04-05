@@ -1150,35 +1150,13 @@ function saveToLocal(key, value) {
 }
 
 // 초기 데이터 기본값
-const INITIAL_USERS = [
-  {id:'u1',email:'eruum@eruum.com',username:'이룸',password_hash:'e5efff8e22aa40861c3a9b9c59fdd75dd12d2779b2a4aa1672ec6501a882997b',role:'admin',name:'이룸',clinic_id:null},
-  {id:'u2',email:'gangnam@clinic.com',username:'gangnam',password_hash:'c199992a740bf9f0c43dcd98a6bc3886f595d600cebcad883d0ec0ecaeada517',role:'clinic',name:'강남치과',clinic_id:'c1'},
-  {id:'u3',email:'seocho@clinic.com',username:'seocho',password_hash:'c199992a740bf9f0c43dcd98a6bc3886f595d600cebcad883d0ec0ecaeada517',role:'clinic',name:'서초치과',clinic_id:'c2'},
-];
+const INITIAL_USERS = [];
 
-const INITIAL_CLINICS = [
-  {id:'c1',name:'강남치과',owner:'김원장',phone:'02-1234-5678',email:'gangnam@clinic.com',address:'서울 강남구',discount_rate:-10,is_active:true,custom_prices:{}},
-  {id:'c2',name:'서초치과',owner:'이원장',phone:'02-2345-6789',email:'seocho@clinic.com',address:'서울 서초구',discount_rate:0,is_active:true,custom_prices:{}},
-  {id:'c3',name:'마포치과',owner:'박원장',phone:'02-3456-7890',email:'mapo@clinic.com',address:'서울 마포구',discount_rate:5,is_active:true,custom_prices:{}},
-  {id:'c4',name:'송파치과',owner:'최원장',phone:'02-4567-8901',email:'songpa@clinic.com',address:'서울 송파구',discount_rate:-5,is_active:true,custom_prices:{}},
-];
-
-const INITIAL_PRODUCTS = [
-  {id:'p1',name:'지르코니아',selling_price:60000,material_cost:18000,unit:'개',is_active:true,is_deleted:false},
-  {id:'p2',name:'PFM 크라운',selling_price:50000,material_cost:22000,unit:'개',is_active:true,is_deleted:false},
-  {id:'p3',name:'인레이',selling_price:40000,material_cost:12000,unit:'개',is_active:true,is_deleted:false},
-  {id:'p4',name:'임플란트 어버트먼트',selling_price:120000,material_cost:55000,unit:'개',is_active:true,is_deleted:false},
-  {id:'p5',name:'덴쳐(완전)',selling_price:180000,material_cost:70000,unit:'개',is_active:true,is_deleted:false},
-  {id:'p6',name:'라미네이트',selling_price:90000,material_cost:35000,unit:'개',is_active:true,is_deleted:false},
-];
-
-const INITIAL_FIXED_COSTS = [
-  {id:'fc1',name:'강남 임대료',amount:2000000,category:'rent',start_date:'2026-01-01',end_date:'2026-12-31',memo:'월세',is_active:true,is_deleted:false},
-  {id:'fc2',name:'직원 급여',amount:2500000,category:'salary',start_date:'2026-01-01',end_date:null,memo:'4대보험 포함',is_active:true,is_deleted:false},
-  {id:'fc3',name:'사업자 대출 상환',amount:500000,category:'loan',start_date:'2025-01-01',end_date:'2028-12-31',memo:'월 50만원',is_active:true,is_deleted:false},
-  {id:'fc4',name:'공과금',amount:300000,category:'utility',start_date:'2026-01-01',end_date:null,memo:'전기/수도/가스',is_active:true,is_deleted:false},
-  {id:'fc5',name:'장비 유지보수',amount:200000,category:'maintenance',start_date:'2026-01-01',end_date:'2026-12-31',memo:'캐드캠 유지비',is_active:true,is_deleted:false},
-];
+const INITIAL_CLINICS = [];
+   
+const INITIAL_PRODUCTS = [];
+   
+const INITIAL_FIXED_COSTS = [];
 
 // Supabase에서 데이터 로드 (fallback: localStorage)
 let USERS = [];
@@ -1315,43 +1293,7 @@ const MOLAR_NUMBERS = [16,17,18,26,27,28,36,37,38,46,47,48]; // 대臼齒
 // 초기에는 빈 배열, 페이지 로드 시 initData()에서 데이터 로드
 
 function generateCases(){
-  const statuses=['working','design','making','ship','done','done','done','done'];
-  const types=['싱글','브릿지','파샬','풀마우스'];
-  const teeth=['11','12','13','14','15','16','17','21','22','24','25','26','36','37','46','47'];
-  const cases=[];
-  const now=new Date();
-  for(let i=1;i<=60;i++){
-    const clinic=CLINICS[Math.floor(Math.random()*CLINICS.length)];
-    const product=PRODUCTS[Math.floor(Math.random()*PRODUCTS.length)];
-    const status=statuses[Math.floor(Math.random()*statuses.length)];
-    const daysAgo=Math.floor(Math.random()*30);
-    const recv=new Date(now);recv.setDate(recv.getDate()-daysAgo);
-    const ship=new Date(recv);ship.setDate(ship.getDate()+Math.floor(Math.random()*5+2));
-    const drRate=clinic.discount_rate;  // 예: -10 (%)
-    const base=product.selling_price;
-    const final=Math.round(base * (1 + drRate / 100));  // -10% → 0.9배
-    const toothNum = teeth[Math.floor(Math.random()*teeth.length)];
-    cases.push({
-      id:`case${String(i).padStart(3,'0')}`,
-      case_number:`ERD-2026-${String(i).padStart(4,'0')}`,
-      clinic_id:clinic.id,clinic_name:clinic.name,
-      patient_name:`환자${i}`,
-      tooth_number:toothNum,tooth_numbers:[toothNum],tooth_count:1,
-      product_id:product.id,product_name:product.name,
-      type:types[Math.floor(Math.random()*types.length)],
-      price:product.selling_price,
-      discount_rate:clinic.discount_rate,
-      final_price:final,
-      status,is_remake:Math.random()<.08,
-      receive_date:recv.toISOString().slice(0,10),
-      ship_date:ship.toISOString().slice(0,10),
-      memo:Math.random()<.3?'빠른 작업 요청':'',
-      history:[{status:'working',changed_at:recv.toISOString(),changed_by:'관리자'}],
-      created_at:recv.toISOString(),
-    });
-
-  }
-  return cases;
+  return [];
 }
 
 function generateProductionLog(){
@@ -4294,7 +4236,7 @@ function renderSettings(){
                 <td>
                   <button class="btn btn-ghost btn-icon btn-sm" onclick="openUserModal('${u.id}')" title="수정">✏️</button>
                   <button class="btn btn-ghost btn-icon btn-sm" onclick="resetUserPassword('${u.id}')" title="비밀번호 초기화" style="color:var(--orange);">🔑</button>
-                  ${u.id!=='u1'?`<button class="btn btn-ghost btn-icon btn-sm" onclick="deleteUser('${u.id}')" title="삭제">🗑</button>`:''}
+                  ${u.role!=='admin'?`<button class="btn btn-ghost btn-icon btn-sm" onclick="deleteUser('${u.id}')" title="삭제">🗑</button>`:''}
                 </td>
               </tr>`).join('')}
             </tbody>
@@ -4756,7 +4698,8 @@ async function doRestoreData(){
 }
 
 async function deleteUser(userId){
-  if(userId === 'u1'){showToast('기본 관리자는 삭제할 수 없습니다.','error');return;}
+  const target = USERS.find(u=>u.id===userId);
+  if(target?.role === 'admin'){showToast('관리자 계정은 삭제할 수 없습니다.','error');return;}
   showConfirm('사용자 삭제','정말 이 사용자를 삭제하시겠습니까?',async ()=>{
     const idx = USERS.findIndex(u=>u.id===userId);
     if(idx>-1){
