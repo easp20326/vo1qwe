@@ -438,6 +438,7 @@ textarea.input{resize:vertical;min-height:80px;}
 }
 .modal-overlay.open .modal{transform:none;}
 .modal.modal-lg{max-width:700px;}
+.modal.modal-xl{max-width:920px;}
 .modal-header{
   padding:22px 24px 18px;
   border-bottom:1px solid var(--border);
@@ -450,7 +451,7 @@ textarea.input{resize:vertical;min-height:80px;}
   border-radius:6px;transition:all var(--transition);
 }
 .modal-close:hover{background:var(--slate-l);color:var(--text);}
-.modal-body{padding:24px;overflow-y:auto;flex:1;}
+.modal-body{padding:24px 28px;overflow-y:auto;flex:1;}
 .modal-footer{
   padding:16px 24px;border-top:1px solid var(--border);
   display:flex;gap:8px;justify-content:flex-end;
@@ -601,22 +602,89 @@ textarea.input{resize:vertical;min-height:80px;}
   .login-right{width:100%;padding:28px 24px;}
 }
 
-/* ══ 치아 선택기 ══ */
-.tooth-selector{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;width:100%;}
-.tooth-btn{
-  width:36px;height:36px;border-radius:var(--radius-xs);
-  border:1.5px solid var(--border);background:var(--surface);
-  font-size:10px;font-weight:700;cursor:pointer;
+/* ══ 치아 선택기 v2 (의뢰서 배치) ══ */
+.ts-wrap{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:14px;user-select:none;}
+.ts-jaw-label{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:.03em;}
+.ts-jaw-label::before,.ts-jaw-label::after{content:'';flex:1;height:0.5px;background:var(--border);}
+.ts-arch{display:flex;justify-content:center;align-items:stretch;}
+.ts-quadrant{display:flex;gap:3px;}
+.ts-center{width:12px;flex-shrink:0;display:flex;align-items:stretch;justify-content:center;}
+.ts-center-line{width:1.5px;background:var(--border2);}
+.ts-side{font-size:9px;color:var(--text3);writing-mode:vertical-rl;padding:0 2px;display:flex;align-items:center;justify-content:center;min-width:14px;}
+.ts-divider{display:flex;align-items:center;gap:6px;margin:7px 0;}
+.ts-divider-line{flex:1;height:1.5px;background:var(--border2);}
+.ts-divider-text{font-size:10px;color:var(--text3);padding:0 4px;}
+
+/* 치아 버튼 상태별 */
+.ts-tooth{
+  width:40px;height:52px;border-radius:5px;
+  border:1.5px solid var(--border);background:var(--surface2);
+  font-size:10px;font-weight:600;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:all var(--transition);color:var(--text2);
 }
-.tooth-btn:hover{border-color:var(--primary);color:var(--primary);}
-.tooth-btn.selected{background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(37,99,235,.3);}
+.ts-tooth.molar{width:46px;}
+.ts-tooth:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-l);}
+.ts-tooth.st-selected{background:var(--primary);border-color:var(--primary-d);color:#fff;box-shadow:0 2px 6px rgba(37,99,235,.3);}
+.ts-tooth.st-pontic{background:var(--purple);border-color:#5b21b6;color:#fff;box-shadow:0 2px 6px rgba(124,58,237,.3);}
+.ts-tooth.st-cnc{background:var(--yellow);border-color:#b45309;color:#fff;box-shadow:0 2px 6px rgba(217,119,6,.3);}
+.ts-tooth.st-pontic-cnc{background:var(--purple);border:3px solid var(--yellow);color:#fff;}
+.ts-tooth.st-remake{background:var(--red);border-color:#b91c1c;color:#fff;box-shadow:0 2px 6px rgba(220,38,38,.3);}
+.ts-tooth-num{font-size:11px;font-weight:700;line-height:1;}
+.ts-tooth-sub{font-size:8px;line-height:1;opacity:.9;max-width:44px;text-align:center;overflow:hidden;white-space:nowrap;}
+
+/* 보철 칩 */
+.ts-prod-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface2);font-size:12px;cursor:pointer;color:var(--text2);transition:all var(--transition);}
+.ts-prod-chip:hover{border-color:var(--primary);color:var(--primary);}
+.ts-prod-chip.active{background:var(--green);border-color:#15803d;color:#fff;font-weight:600;}
+.ts-prod-chip.active::before{content:'✓ ';}
+
+/* 치아별 설정 토글 */
+.ts-tog{font-size:11px;padding:3px 10px;border-radius:99px;border:1.5px solid var(--border);background:var(--surface2);cursor:pointer;color:var(--text2);transition:all var(--transition);font-weight:600;}
+.ts-tog:hover{border-color:var(--border2);}
+.ts-tog.on-prod{background:var(--primary);border-color:var(--primary-d);color:#fff;}
+.ts-tog.on-pontic{background:var(--purple);border-color:#5b21b6;color:#fff;}
+.ts-tog.on-cnc{background:var(--yellow);border-color:#b45309;color:#fff;}
+.ts-tog.on-remake{background:var(--red);border-color:#b91c1c;color:#fff;}
+
+/* CNC 서브옵션 */
+.ts-cnc-sub{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;padding:7px 10px;background:var(--yellow-l);border-radius:var(--radius-xs);border-left:3px solid var(--yellow);align-items:center;}
+.ts-cnc-label{font-size:10px;color:#92400e;margin-right:2px;white-space:nowrap;}
+.ts-copt{font-size:11px;padding:2px 9px;border-radius:99px;border:1.5px solid #fcd34d;background:#fff;cursor:pointer;color:#78350f;transition:all var(--transition);font-weight:600;}
+.ts-copt.on{background:var(--yellow);border-color:#b45309;color:#fff;}
+
+/* 치아별 설정 행 */
+.ts-cfg-row{padding:10px 12px;border-bottom:1px solid var(--border);}
+.ts-cfg-row:last-child{border-bottom:none;}
+.ts-cfg-num{font-size:13px;font-weight:700;min-width:30px;color:var(--text);}
+.ts-remake-note{font-size:11px;color:var(--red);margin-top:4px;padding:4px 8px;background:var(--red-l);border-radius:4px;border-left:3px solid var(--red);}
+.ts-subtotal{font-size:11px;color:var(--text3);margin-top:5px;}
+.ts-subtotal strong{color:var(--text);}
+.ts-warn{font-size:11px;background:var(--yellow-l);color:var(--yellow);padding:2px 8px;border-radius:99px;display:inline-block;margin-top:4px;}
+
+/* 금액 합계 */
+.ts-price-box{margin-top:10px;background:var(--primary-l);border:1px solid var(--primary-m);border-radius:var(--radius-sm);padding:12px 14px;}
+.ts-pl{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:4px;align-items:center;}
+.ts-pl.remake{color:var(--red);text-decoration:line-through;opacity:.6;}
+.ts-pl.sub{padding-left:12px;font-size:11px;color:var(--text3);margin-bottom:2px;}
+.ts-pl-divider{border:none;border-top:1px solid var(--primary-m);margin:7px 0;}
+.ts-total{display:flex;justify-content:space-between;align-items:baseline;}
+.ts-total-label{font-size:13px;font-weight:700;}
+.ts-total-val{font-size:20px;font-weight:800;color:var(--primary);}
+
+/* 퀵 버튼 */
+.ts-quick{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
+.ts-qbtn{font-size:11px;padding:3px 9px;border:1px solid var(--border);border-radius:99px;background:transparent;cursor:pointer;color:var(--text2);transition:all var(--transition);}
+.ts-qbtn:hover{background:var(--slate-l);}
+
+/* 범례 */
+.ts-legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.ts-lg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);}
+.ts-lg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+/* 기존 호환 */
 .tooth-selected-list{display:flex;flex-wrap:wrap;gap:4px;min-height:20px;}
-.tooth-tag{
-  background:var(--primary-l);color:var(--primary);
-  padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;
-  display:flex;align-items:center;gap:4px;
-}
+.tooth-tag{background:var(--primary-l);color:var(--primary);padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px;}
 .tooth-tag button{background:none;border:none;cursor:pointer;color:var(--primary);font-size:12px;padding:0;line-height:1;}
 
 /* ══ 제품 카드 ══ */
@@ -844,6 +912,14 @@ textarea.input{resize:vertical;min-height:80px;}
       <button class="nav-item" data-page="gallery" onclick="navigate('gallery')">
         <span class="icon">📸</span> 사진 갤러리
       </button>
+      <div class="nav-section">소통</div>
+      <button class="nav-item" data-page="messages" onclick="navigate('messages')" id="navMessages">
+        <span class="icon">✉️</span> 쪽지함
+        <span class="new-badge" id="msgBadge" style="display:none;">0</span>
+      </button>
+      <button class="nav-item admin-only" data-page="invoice" onclick="navigate('invoice')">
+        <span class="icon">🧾</span> 청구서 발행
+      </button>
       <div class="nav-section admin-only">공지</div>
       <button class="nav-item admin-only" data-page="notice" onclick="navigate('notice')">
         <span class="icon">📢</span> 공지사항 관리
@@ -932,26 +1008,21 @@ textarea.input{resize:vertical;min-height:80px;}
 // ══════════════════════════════════════════════════
 
 const STORAGE_KEY = 'dental_portal_v5';
-
-// ── Supabase 키는 코드에 직접 쓰지 않음 ──
-// Vercel 환경변수에서 안전하게 불러옴
 let SUPABASE_URL = '';
 let SUPABASE_ANON_KEY = '';
-
-async function loadConfig() {
-  try {
-    const res = await fetch('/api/config');
-    if (!res.ok) throw new Error('config 응답 오류');
-    const config = await res.json();
-    SUPABASE_URL = config.supabaseUrl || '';
-    SUPABASE_ANON_KEY = config.supabaseKey || '';
-  } catch(e) {
-    console.warn('설정 로드 실패 — 로컬 모드로 실행됩니다:', e.message);
-    // 로컬 개발 시: 아래 두 줄 주석 해제 후 사용 (GitHub에는 올리지 말 것)
-    // SUPABASE_URL = '';
-    // SUPABASE_ANON_KEY = '';
-  }
+async function loadConfig(){
+  try{
+    const r=await fetch('/api/config');
+    if(!r.ok) throw new Error('config error');
+    const cfg=await r.json();
+    SUPABASE_URL=cfg.supabaseUrl||'';
+    SUPABASE_ANON_KEY=cfg.supabaseKey||'';
+  }catch(e){ console.warn('설정 로드 실패 — 로컬 모드:', e.message); }
 }
+
+// ── 쪽지 데이터 ──
+let MESSAGES = [];  // {id, from_user, from_name, to_clinic_id, to_user, case_id, case_number, content, is_read, created_at}
+
 
 // Supabase client (lazy load)
 let supabaseClient = null;
@@ -1356,8 +1427,11 @@ function clearSession() {
 
 // 페이지 로드 시 데이터 초기화 + 세션 확인
 window.addEventListener('DOMContentLoaded', async () => {
-  await loadConfig();   // ① Vercel에서 Supabase 키 먼저 받아옴
-  await initData();     // ② 키 받은 후 데이터 로드
+  await loadConfig();
+  await initData();
+  // 쪽지 로드
+  const savedMsg = localStorage.getItem(STORAGE_KEY+'_messages');
+  if(savedMsg) try{ MESSAGES = JSON.parse(savedMsg); }catch(e){}
   isDataReady = true;
   // 로그인 화면 공지 + 기공소 정보 주입 (localStorage 기반 - Supabase 무관)
   renderLoginScreen();
@@ -1528,7 +1602,7 @@ function initApp(){
 //  NAVIGATION
 // ══════════════════════════════════════════════════
 
-const PAGE_TITLES={dashboard:'📋 진행현황',stats:'📊 통계 대시보드',sales:'매출 분석',bep:'📈 경영 분석',fixedcosts:'고정비 관리',products:'보철 / 원가 관리',clinics:'거래처 관리',clinicmemo:'📝 거래처 메모',gallery:'📸 사진 갤러리',notice:'📢 공지사항 관리',settings:'설정'};
+const PAGE_TITLES={dashboard:'📋 진행현황',stats:'📊 통계 대시보드',sales:'매출 분석',bep:'📈 경영 분석',fixedcosts:'고정비 관리',products:'보철 / 원가 관리',clinics:'거래처 관리',clinicmemo:'📝 거래처 메모',gallery:'📸 사진 갤러리',notice:'📢 공지사항 관리',messages:'✉️ 쪽지함',invoice:'🧾 청구서 발행',settings:'설정'};
 
 function navigate(page){
   if(currentUser.role!=='admin'&&['sales','bep','fixedcosts','products','clinics','notice'].includes(page)){
@@ -1556,6 +1630,8 @@ function navigate(page){
     case 'gallery': renderGallery();break;
     case 'clinicmemo': renderClinicMemo();break;
     case 'notice': renderNotice();break;
+    case 'messages': renderMessages();break;
+    case 'invoice': renderInvoicePage();break;
     case 'settings': renderSettings();break;
   }
 }
@@ -1804,7 +1880,7 @@ function openCaseDetail(id){
       <div class="info-item"><div class="info-item-label">보철명</div><div class="info-item-value">${c.product_name}</div></div>
       <div class="info-item"><div class="info-item-label">치아번호</div><div class="info-item-value font-mono">#${formatToothNumbers(c.tooth_numbers||c.tooth_number)}${c.tooth_count>1?` <span class="tag" style="background:var(--blue-l);color:var(--blue);">${c.tooth_count}개</span>`:''}</div></div>
       <div class="info-item"><div class="info-item-label">접수일</div><div class="info-item-value">${c.receive_date}</div></div>
-      <div class="info-item"><div class="info-item-label">납기일</div><div class="info-item-value" style="color:${isOverdue(c)?'var(--red)':''}">${c.ship_date}${isOverdue(c)?' ⚠️':''}</div></div>
+      <div class="info-item"><div class="info-item-label">납기일 / D-day</div><div class="info-item-value" style="color:${isOverdue(c)?'var(--red)':'inherit'}">${c.ship_date} <strong style="color:${getDdayColor(c)};font-size:13px;">${getDdayText(c)}</strong></div></div>
       <div class="info-item"><div class="info-item-label">기본 단가</div><div class="info-item-value font-mono">${fmt(c.price)} × ${c.tooth_count||1}개 = ${fmt(c.price * (c.tooth_count||1))}</div></div>
       <div class="info-item"><div class="info-item-label">할인율</div><div class="info-item-value" style="color:${c.discount_rate<0?'var(--red)':'var(--green)'}">${c.discount_rate>0?'+':''}${c.discount_rate}%</div></div>
       <div class="info-item"><div class="info-item-label">최종 금액</div><div class="info-item-value font-mono" style="color:var(--blue);font-size:16px;">${fmt(c.final_price)}</div></div>
@@ -1846,6 +1922,16 @@ function openCaseDetail(id){
           <div class="timeline-time">${new Date(h.changed_at).toLocaleString('ko-KR')} · ${h.changed_by}</div>
         </div>
       </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- 💬 케이스 댓글 -->
+  <div class="info-section">
+    <div class="info-section-title">💬 댓글 / 메모</div>
+    <div id="commentList" style="margin-bottom:10px;">${renderCommentList(c.id)}</div>
+    <div style="display:flex;gap:8px;align-items:flex-end;">
+      <textarea class="input" id="commentInput_${c.id}" rows="2" placeholder="기공소 ↔ 치과 간 메모를 남기세요..." style="flex:1;font-size:12px;min-height:60px;"></textarea>
+      <button class="btn btn-primary btn-sm" onclick="addComment('${c.id}')">등록</button>
     </div>
   </div>`;
   
@@ -2125,15 +2211,20 @@ async function changeCaseStatus(id,status){
   c.status=status;
   c.history.push({status,changed_at:new Date().toISOString(),changed_by:currentUser.name});
 
+  // 배송 상태 변경 시 → 해당 치과에 자동 쪽지 발송
+  if(status==='ship'){
+    sendAutoMessage(c, `📦 [${c.case_number}] ${c.patient_name} 환자의 보철물이 배송 출발했습니다. 납기일: ${c.ship_date}`);
+  }
   if(status==='done'){
+    sendAutoMessage(c, `✅ [${c.case_number}] ${c.patient_name} 환자의 케이스가 완료됐습니다.`);
     const product=PRODUCTS.find(p=>p.id===c.product_id);
     PRODUCTION_LOG.push({id:`pl_${Date.now()}`,case_id:c.id,product_id:c.product_id,product_name:c.product_name,clinic_id:c.clinic_id,clinic_name:c.clinic_name,quantity:1,selling_price:c.price,material_cost:product?.material_cost||0,final_price:c.final_price,production_date:new Date().toISOString().slice(0,10)});
-
-    autoSave('production_log', PRODUCTION_LOG);  // PRODUCTION_LOG Supabase+localStorage 저장
+    autoSave('production_log', PRODUCTION_LOG);
   }
   await autoSave('cases', CASES);
   openCaseDetail(id);
   renderDashboard();
+  updateMsgBadge();
   showToast(`상태가 "${statusLabel(status)}"으로 변경되었습니다.`,'success');
 }
 async function deleteCase(id){
@@ -2164,20 +2255,11 @@ function openCaseModal(id=null){
       <input class="input" id="cm_patient" value="${c?.patient_name||''}" placeholder="환자명">
     </div>
   </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>보철 *</label>
-      <select class="select" id="cm_product" onchange="updateCasePrice()">
-        <option value="">선택</option>
-        ${PRODUCTS.filter(p=>!p.is_deleted).map(p=>`<option value="${p.id}" ${c?.product_id===p.id?'selected':''}>${p.name} (${fmt(p.selling_price)})</option>`).join('')}
-      </select>
-    </div>
-  </div>
   <div class="form-group" style="width:100%;">
-      <label>치아번호 (FDI)</label>
-      <div class="tooth-selector" id="toothSelector"></div>
-      <input type="hidden" id="cm_tooth" value="">
-      <div class="tooth-selected-list" id="toothSelectedList"></div>
+    <label>치아번호 (FDI) / 보철 설정</label>
+    <input type="hidden" id="cm_tooth" value="">
+    <input type="hidden" id="cm_tooth_config" value="[]">
+    <div id="toothSelectorV2"></div>
   </div>
   <div class="form-row">
     <div class="form-group">
@@ -2191,22 +2273,11 @@ function openCaseModal(id=null){
       <input class="input" type="date" id="cm_ship" value="${c?.ship_date||new Date(Date.now()+3*86400000).toISOString().slice(0,10)}">
     </div>
   </div>
-  <div class="form-row" style="align-items:center;gap:16px;">
-    <div class="form-group" style="flex:1;">
-      <label>메모</label>
-      <textarea class="input" id="cm_memo" rows="2" placeholder="추가 메모...">${c?.memo||''}</textarea>
-    </div>
-    <div class="form-group" style="flex:0 0 auto;padding-top:20px;">
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap;">
-        <input type="checkbox" id="cm_remake" ${c?.is_remake?'checked':''} 
-          onchange="onRemakeToggle(this.checked)"
-          style="width:18px;height:18px;cursor:pointer;">
-        <span style="font-weight:600;color:var(--red);">🔴 리메이크</span>
-      </label>
-      <div style="font-size:11px;color:var(--text3);margin-top:4px;">선택 시 가격 0원 처리</div>
-    </div>
+  <div class="form-group">
+    <label>메모</label>
+    <textarea class="input" id="cm_memo" rows="2" placeholder="추가 메모...">${c?.memo||''}</textarea>
   </div>
-  <div id="cm_price_preview" style="background:var(--blue-l);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;"></div>
+  <div id="cm_price_preview" style="background:var(--blue-l);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;margin-top:4px;"></div>
   <div class="form-group" style="margin-top:12px;">
     <label>📸 사진 첨부 <span id="cm_photo_count" style="color:var(--text3);font-weight:400;">(0 / 5장)</span></label>
     <div class="photo-drop-zone" id="cm_drop_zone"
@@ -2222,94 +2293,442 @@ function openCaseModal(id=null){
   </div>
   `,
   `<button class="btn btn-secondary" onclick="closeModal()">취소</button>
-   <button class="btn btn-primary" onclick="saveCaseModal('${id||''}')">💾 저장</button>`);
-  updateCasePrice();
-  renderToothSelector(c?.tooth_numbers||parseToothNumbers(c?.tooth_number));
+   <button class="btn btn-primary" onclick="saveCaseModal('${id||''}')">💾 저장</button>`,
+  false, true);
+
+  // 새 치식 선택기 초기화
+  const existingConfig = c?.tooth_config || null;
+  if(existingConfig){
+    initToothSelectorV2(existingConfig);
+  } else if(c?.tooth_numbers || c?.tooth_number){
+    // 기존 데이터 호환 — 치아 번호만 있는 경우
+    initToothSelectorV2(null);
+    const teeth = c?.tooth_numbers || parseToothNumbers(c?.tooth_number);
+    teeth.forEach(n=>{
+      const num=parseInt(n);
+      if(!isNaN(num)){
+        tsSelTeeth.add(num);
+        tsCfg[num]={prods:new Set(),isPontic:false,isCNC:false,cncOpts:new Set(),isRemake:!!c?.is_remake};
+      }
+    });
+    tsRefresh();
+  } else {
+    initToothSelectorV2(null);
+  }
+
   // 기존 사진 복원 (수정 시)
   window._casePhotos = c?.photos ? [...c.photos] : [];
   renderPhotoPreview();
 }
 
-function renderToothSelector(selectedTeeth=[]){
-  const container=document.getElementById('toothSelector');
-  const hiddenInput=document.getElementById('cm_tooth');
-  if(!container)return;
-  
-  const toArr = Array.isArray(selectedTeeth) ? selectedTeeth : parseToothNumbers(selectedTeeth);
-  
-  const renderQuadrant=(title,teeth)=>`
-    <div class="tooth-section">
-      <div class="tooth-section-title">${title}</div>
-      <div class="tooth-grid">
-        ${teeth.map(t=>`
-          <button type="button" class="tooth-btn ${MOLAR_NUMBERS.includes(t)?'molar':''} ${toArr.includes(String(t))?'selected':''}" 
-            data-tooth="${t}" onclick="toggleTooth(${t})">${t}</button>
-        `).join('')}
-      </div>
-    </div>`;
-  
-  container.innerHTML=`
-    <div class="tooth-quadrant">
-      <div class="tooth-row">
-        ${renderQuadrant('상단 (우) 18 17 16 15 14 13 12 11',[...TOOTH_DATA.upperRight].reverse())}
-        ${renderQuadrant('상단 (좌) 21 22 23 24 25 26 27 28',TOOTH_DATA.upperLeft)}
-      </div>
-      <div class="tooth-row">
-        ${renderQuadrant('하단 (우) 41 42 43 44 45 46 47 48',TOOTH_DATA.lowerRight)}
-        ${renderQuadrant('하단 (좌) 38 37 36 35 34 33 32 31',[...TOOTH_DATA.lowerLeft].reverse())}
-      </div>
-    </div>`;
-  
-  updateToothDisplay(toArr);
+// ══════════════════════════════════════════════════
+//  치아 선택기 v2 — FDI 의뢰서 배치 + 보철 설정
+// ══════════════════════════════════════════════════
+
+const TS_MOLARS=[16,17,18,26,27,28,36,37,38,46,47,48];
+const TS_ORDER={
+  q1:[18,17,16,15,14,13,12,11],
+  q2:[21,22,23,24,25,26,27,28],
+  q3:[31,32,33,34,35,36,37,38],
+  q4:[48,47,46,45,44,43,42,41],
+};
+const TS_CNC_OPTS=[
+  {id:'stain',name:'스테인'},
+  {id:'cutback',name:'컷백'},
+  {id:'layer',name:'레이어링'},
+  {id:'pink',name:'핑크포슬린'},
+  {id:'char',name:'특성화'},
+];
+const TS_CNC_ADD=50000;
+
+// 상태 저장소
+let tsSelTeeth=new Set();
+let tsDefaultProds=new Set();
+let tsCfg={};
+// tsCfg[n] = { prods:Set<productId>, isPontic, isCNC, cncOpts:Set, isRemake }
+
+function initToothSelectorV2(existingData=null){
+  tsSelTeeth=new Set();
+  tsDefaultProds=new Set();
+  tsCfg={};
+
+  // 수정 시 기존 데이터 복원
+  if(existingData && existingData.teeth){
+    existingData.teeth.forEach(t=>{
+      const n=parseInt(t.num);
+      tsSelTeeth.add(n);
+      tsCfg[n]={
+        prods: new Set(t.prods||[]),
+        isPontic: !!t.isPontic,
+        isCNC: !!t.isCNC,
+        cncOpts: new Set(t.cncOpts||[]),
+        isRemake: !!t.isRemake,
+      };
+    });
+    (existingData.defaultProds||[]).forEach(id=>tsDefaultProds.add(id));
+  }
+
+  tsRenderAll();
 }
 
-function toggleTooth(toothNum){
-  let selected=document.getElementById('cm_tooth').value;
-  let arr=selected?selected.split(',').filter(t=>t):[];
-  const idx=arr.indexOf(String(toothNum));
-  if(idx>-1)arr.splice(idx,1);
-  else arr.push(toothNum);
-  arr.sort((a,b)=>parseInt(a)-parseInt(b));
-  document.getElementById('cm_tooth').value=arr.join(',');
-  
-  document.querySelectorAll('.tooth-btn').forEach(btn=>{
-    const t=parseInt(btn.dataset.tooth);
-    btn.classList.toggle('selected',arr.includes(String(t)));
+function tsRenderAll(){
+  const container=document.getElementById('toothSelectorV2');
+  if(!container) return;
+
+  // 사용 가능한 보철 목록 (현재 PRODUCTS에서)
+  const availProds=PRODUCTS.filter(p=>!p.is_deleted);
+
+  container.innerHTML=`
+  <!-- 범례 -->
+  <div class="ts-legend">
+    <div class="ts-lg"><div class="ts-lg-dot" style="background:var(--border2);"></div>미선택</div>
+    <div class="ts-lg"><div class="ts-lg-dot" style="background:var(--primary);"></div>선택</div>
+    <div class="ts-lg"><div class="ts-lg-dot" style="background:var(--purple);"></div>폰틱</div>
+    <div class="ts-lg"><div class="ts-lg-dot" style="background:var(--yellow);"></div>어버트먼트CNC</div>
+    <div class="ts-lg"><div class="ts-lg-dot" style="background:var(--red);"></div>리메이크</div>
+  </div>
+
+  <!-- ① 치식 차트 -->
+  <div class="ts-wrap">
+    <div class="ts-jaw-label">상악 (위턱)</div>
+    <div class="ts-arch">
+      <div class="ts-side">우</div>
+      <div class="ts-quadrant" id="tsq1"></div>
+      <div class="ts-center"><div class="ts-center-line"></div></div>
+      <div class="ts-quadrant" id="tsq2"></div>
+      <div class="ts-side">좌</div>
+    </div>
+    <div class="ts-divider">
+      <div class="ts-divider-line"></div>
+      <div class="ts-divider-text">교합면</div>
+      <div class="ts-divider-line"></div>
+    </div>
+    <div class="ts-arch">
+      <div class="ts-side">우</div>
+      <div class="ts-quadrant" id="tsq4"></div>
+      <div class="ts-center"><div class="ts-center-line"></div></div>
+      <div class="ts-quadrant" id="tsq3"></div>
+      <div class="ts-side">좌</div>
+    </div>
+    <div class="ts-jaw-label" style="margin-top:8px;margin-bottom:0;">하악 (아래턱)</div>
+    <div class="ts-quick">
+      <button type="button" class="ts-qbtn" onclick="tsSelectUpper()">상악 전체</button>
+      <button type="button" class="ts-qbtn" onclick="tsSelectLower()">하악 전체</button>
+      <button type="button" class="ts-qbtn" onclick="tsClearAll()">전체 해제</button>
+    </div>
+  </div>
+
+  <!-- ② 기본 보철 선택 -->
+  <div id="tsSec2" style="display:none;margin-top:12px;">
+    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">
+      기본 보철 선택
+      <span style="font-size:11px;font-weight:400;color:var(--text3);">— 모든 치아에 자동 적용 · 치아별 변경 가능</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;" id="tsProdGrid"></div>
+  </div>
+
+  <!-- ③ 치아별 세부 설정 -->
+  <div id="tsSec3" style="display:none;margin-top:12px;">
+    <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;">
+      치아별 세부 설정
+      <span style="font-size:11px;font-weight:400;color:var(--text3);">— 폰틱 · 커스텀 어버트먼트CNC · 리메이크 개별 지정</span>
+    </div>
+    <div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;" id="tsCfgRows"></div>
+  </div>
+
+  <!-- ④ 금액 합계 -->
+  <div id="tsSec4" style="display:none;"></div>
+  `;
+
+  // 치식 버튼 생성
+  ['q1','q2','q3','q4'].forEach(q=>{
+    const el=document.getElementById('ts'+q);
+    if(!el) return;
+    el.innerHTML=TS_ORDER[q].map(n=>`
+      <div class="ts-tooth${TS_MOLARS.includes(n)?' molar':''}" id="tst${n}" onclick="tsClickTooth(${n})">
+        <span class="ts-tooth-sub" id="tssub${n}" style="display:none;"></span>
+        <span class="ts-tooth-num">${n}</span>
+      </div>`).join('');
   });
 
-  
-  updateToothDisplay(arr);
-  updateCasePrice();
+  tsRefresh();
 }
 
-function updateToothDisplay(selectedTeeth){
-  const list=document.getElementById('toothSelectedList');
-  if(!list)return;
-  const arr=Array.isArray(selectedTeeth)?selectedTeeth:(selectedTeeth?selectedTeeth.split(','):[]);
-  if(arr.length===0){
-    list.innerHTML='<span style="color:var(--text3);font-size:12px;">치를 선택하세요</span>';
-    return;
+function tsClickTooth(n){
+  if(tsSelTeeth.has(n)){
+    tsSelTeeth.delete(n);
+    delete tsCfg[n];
+  } else {
+    tsSelTeeth.add(n);
+    tsCfg[n]={prods:new Set(tsDefaultProds),isPontic:false,isCNC:false,cncOpts:new Set(),isRemake:false};
   }
-  list.innerHTML=arr.map(t=>`
-    <span class="tooth-chip">${t}<button type="button" class="tooth-chip-remove" onclick="removeTooth(${t})">×</button></span>
-  `).join('')+'<span class="tooth-clear-btn" onclick="clearAllTeeth()">전체 해제</span>';
+  tsRefresh();
 }
 
-function removeTooth(toothNum){
-  toggleTooth(toothNum);
+function tsToothClass(n){
+  if(!tsSelTeeth.has(n)) return '';
+  const c=tsCfg[n];
+  if(c.isRemake) return 'st-remake';
+  if(c.isPontic&&c.isCNC) return 'st-pontic-cnc';
+  if(c.isPontic) return 'st-pontic';
+  if(c.isCNC) return 'st-cnc';
+  return 'st-selected';
+}
+function tsToothSub(n){
+  if(!tsSelTeeth.has(n)) return '';
+  const c=tsCfg[n];
+  if(c.isRemake) return 'R';
+  const t=[];
+  if(c.isPontic) t.push('P');
+  if(c.isCNC) t.push('A');
+  return t.join('·')||'';
 }
 
-function clearAllTeeth(){
-  document.getElementById('cm_tooth').value='';
-  document.querySelectorAll('.tooth-btn').forEach(btn=>btn.classList.remove('selected'));
-  updateToothDisplay([]);
+function tsRefreshTeeth(){
+  Object.values(TS_ORDER).flat().forEach(n=>{
+    const el=document.getElementById('tst'+n);
+    const sub=document.getElementById('tssub'+n);
+    if(!el) return;
+    el.className='ts-tooth'+(TS_MOLARS.includes(n)?' molar':'');
+    const cls=tsToothClass(n);
+    if(cls) el.classList.add(cls);
+    const s=tsToothSub(n);
+    if(s){sub.style.display='';sub.textContent=s;}
+    else sub.style.display='none';
+  });
+}
+
+function tsBuildProdGrid(){
+  const availProds=PRODUCTS.filter(p=>!p.is_deleted);
+  const el=document.getElementById('tsProdGrid');
+  if(!el) return;
+  el.innerHTML=availProds.map(p=>`
+    <div class="ts-prod-chip${tsDefaultProds.has(p.id)?' active':''}" onclick="tsToggleDefaultProd('${p.id}')">
+      ${p.name}<span style="font-size:10px;opacity:.7;margin-left:3px;">${fmt(p.selling_price)}</span>
+    </div>`).join('');
+}
+
+function tsToggleDefaultProd(id){
+  if(tsDefaultProds.has(id)) tsDefaultProds.delete(id);
+  else tsDefaultProds.add(id);
+  tsSelTeeth.forEach(n=>{
+    if(tsDefaultProds.has(id)) tsCfg[n].prods.add(id);
+    else tsCfg[n].prods.delete(id);
+  });
+  tsRefresh();
+}
+
+function tsBuildCfgRows(){
+  const availProds=PRODUCTS.filter(p=>!p.is_deleted);
+  const sorted=[...tsSelTeeth].sort((a,b)=>a-b);
+  const el=document.getElementById('tsCfgRows');
+  if(!el) return;
+  if(!sorted.length){document.getElementById('tsSec3').style.display='none';return;}
+  document.getElementById('tsSec3').style.display='';
+
+  // 거래처 선택된 경우 할인 적용
+  const clinicId=document.getElementById('cm_clinic')?.value;
+  const clinic=CLINICS.find(c=>c.id===clinicId);
+
+  el.innerHTML=sorted.map(n=>{
+    const c=tsCfg[n];
+    const prodBtns=availProds.map(p=>`
+      <button type="button" class="ts-tog${c.prods.has(p.id)?' on-prod':''}"
+        onclick="tsToggleToothProd(${n},'${p.id}')">${p.name}</button>`).join('');
+
+    const cncSub=c.isCNC?`
+      <div class="ts-cnc-sub">
+        <span class="ts-cnc-label">CNC 유형:</span>
+        ${TS_CNC_OPTS.map(o=>`
+          <button type="button" class="ts-copt${c.cncOpts.has(o.id)?' on':''}"
+            onclick="tsToggleCNCOpt(${n},'${o.id}')">${o.name}</button>`).join('')}
+      </div>`:'';
+
+    // 소계 계산
+    let sub=0;const details=[];
+    if(!c.isRemake){
+      c.prods.forEach(id=>{
+        const p=availProds.find(x=>x.id===id);
+        if(p){
+          const price=clinic?getClinicPrice(clinic,p):p.selling_price;
+          sub+=price;
+          details.push(`${p.name} ${fmt(price)}`);
+        }
+      });
+      if(c.isCNC){sub+=TS_CNC_ADD;details.push(`어버트먼트CNC +${fmt(TS_CNC_ADD)}`);}
+    }
+
+    return `
+    <div class="ts-cfg-row">
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <div class="ts-cfg-num">#${n}</div>
+        <div style="flex:1;">
+          <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">보철 선택</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;">${prodBtns}</div>
+          <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">추가 옵션</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <button type="button" class="ts-tog${c.isPontic?' on-pontic':''}" onclick="tsTogglePontic(${n})">폰틱</button>
+            <button type="button" class="ts-tog${c.isCNC?' on-cnc':''}" onclick="tsToggleCNC(${n})">커스텀 어버트먼트CNC</button>
+            <button type="button" class="ts-tog${c.isRemake?' on-remake':''}" onclick="tsToggleRemake(${n})">🔴 리메이크</button>
+          </div>
+          ${cncSub}
+          ${c.isRemake?`<div class="ts-remake-note">⚠️ 리메이크 — 이 치아 가격 0원 처리</div>`:''}
+          ${!c.isRemake&&details.length?`<div class="ts-subtotal">소계: <strong>${fmt(sub)}</strong> <span style="color:var(--text3);">(${details.join(' + ')})</span></div>`:''}
+          ${!c.isRemake&&!c.prods.size?`<span class="ts-warn">⚠ 보철 미선택</span>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function tsToggleToothProd(n,id){const c=tsCfg[n];if(c.prods.has(id))c.prods.delete(id);else c.prods.add(id);tsRefresh();}
+function tsTogglePontic(n){tsCfg[n].isPontic=!tsCfg[n].isPontic;tsRefresh();}
+function tsToggleCNC(n){tsCfg[n].isCNC=!tsCfg[n].isCNC;if(!tsCfg[n].isCNC)tsCfg[n].cncOpts.clear();tsRefresh();}
+function tsToggleCNCOpt(n,id){const s=tsCfg[n].cncOpts;if(s.has(id))s.delete(id);else s.add(id);tsRefresh();}
+function tsToggleRemake(n){
+  tsCfg[n].isRemake=!tsCfg[n].isRemake;
+  if(tsCfg[n].isRemake){tsCfg[n].isPontic=false;tsCfg[n].isCNC=false;tsCfg[n].cncOpts.clear();}
+  tsRefresh();
+}
+
+function tsCalcAndShowPrice(){
+  const availProds=PRODUCTS.filter(p=>!p.is_deleted);
+  const clinicId=document.getElementById('cm_clinic')?.value;
+  const clinic=CLINICS.find(c=>c.id===clinicId);
+  const sorted=[...tsSelTeeth].sort((a,b)=>a-b);
+  const el=document.getElementById('tsSec4');
+  if(!sorted.length){el.style.display='none';return;}
+
+  const hasProd=sorted.some(n=>tsCfg[n]&&(tsCfg[n].prods.size>0||tsCfg[n].isRemake));
+  if(!hasProd){el.style.display='none';return;}
+  el.style.display='';
+
+  let grand=0;
+  let lines=[];
+  sorted.forEach(n=>{
+    const c=tsCfg[n];
+    if(c.isRemake){
+      const names=[...c.prods].map(id=>availProds.find(p=>p.id===id)?.name).filter(Boolean).join('+');
+      lines.push(`<div class="ts-pl remake"><span>#${n}${names?' '+names:''} <span style="background:var(--red-l);color:var(--red);font-size:10px;padding:1px 6px;border-radius:99px;">리메이크</span></span><span>0원</span></div>`);
+      return;
+    }
+    if(!c.prods.size){
+      lines.push(`<div class="ts-pl"><span>#${n} <span style="color:var(--yellow);font-size:11px;">보철 미선택</span></span><span>-</span></div>`);
+      return;
+    }
+    let sub=0;const details=[];
+    c.prods.forEach(id=>{
+      const p=availProds.find(x=>x.id===id);
+      if(p){const price=clinic?getClinicPrice(clinic,p):p.selling_price;sub+=price;details.push(`${p.name} ${fmt(price)}`);}
+    });
+    if(c.isCNC){
+      sub+=TS_CNC_ADD;
+      const opts=[...c.cncOpts].map(id=>TS_CNC_OPTS.find(o=>o.id===id)?.name).filter(Boolean).join('·');
+      details.push(`어버트먼트CNC ${fmt(TS_CNC_ADD)}${opts?' ('+opts+')':''}`);
+    }
+    grand+=sub;
+    const badges=[];
+    if(c.isPontic) badges.push(`<span style="background:var(--purple-l);color:var(--purple);font-size:10px;padding:1px 6px;border-radius:99px;">폰틱</span>`);
+    if(c.isCNC)    badges.push(`<span style="background:var(--yellow-l);color:var(--yellow);font-size:10px;padding:1px 6px;border-radius:99px;">어버트먼트CNC</span>`);
+    lines.push(`<div class="ts-pl"><span>#${n} ${badges.join(' ')}</span><span style="font-weight:700;">${fmt(sub)}</span></div>`);
+    details.forEach(d=>lines.push(`<div class="ts-pl sub"><span>${d}</span></div>`));
+  });
+
+  const remakeCnt=sorted.filter(n=>tsCfg[n].isRemake).length;
+  el.innerHTML=`
+  <div class="ts-price-box">
+    ${lines.join('')}
+    <div class="ts-pl-divider"></div>
+    <div class="ts-total">
+      <span class="ts-total-label">합계 ${sorted.length}개${remakeCnt?` (리메이크 ${remakeCnt}개)`:''}</span>
+      <span class="ts-total-val">${fmt(grand)}</span>
+    </div>
+  </div>`;
+
+  // hidden input 업데이트
+  tsSyncHiddenInputs(grand);
+}
+
+function tsSyncHiddenInputs(totalPrice){
+  // cm_tooth: 선택된 치아 번호 (기존 호환)
+  const sorted=[...tsSelTeeth].sort((a,b)=>a-b);
+  document.getElementById('cm_tooth').value=sorted.join(',');
+
+  // cm_tooth_config: 치아별 상세 설정 JSON
+  const config={
+    defaultProds:[...tsDefaultProds],
+    teeth:sorted.map(n=>{
+      const c=tsCfg[n];
+      return{
+        num:n,
+        prods:[...c.prods],
+        isPontic:c.isPontic,
+        isCNC:c.isCNC,
+        cncOpts:[...c.cncOpts],
+        isRemake:c.isRemake,
+      };
+    }),
+    totalPrice:totalPrice||0,
+  };
+  document.getElementById('cm_tooth_config').value=JSON.stringify(config);
+
+  // 가격 미리보기 업데이트
+  tsUpdatePricePreview(totalPrice||0);
+}
+
+function tsUpdatePricePreview(total){
+  const preview=document.getElementById('cm_price_preview');
+  if(!preview) return;
+  const sorted=[...tsSelTeeth].sort((a,b)=>a-b);
+  if(!sorted.length){preview.innerHTML='';return;}
+  const remakeCnt=sorted.filter(n=>tsCfg[n]?.isRemake).length;
+  preview.style.background='var(--primary-l)';
+  preview.innerHTML=`💰 총 금액: <b class="font-mono" style="color:var(--primary);font-size:15px;">${fmt(total)}</b> · ${sorted.length}개 치아${remakeCnt?` <span style="color:var(--red);">(리메이크 ${remakeCnt}개 포함)</span>`:''}`;
+}
+
+function tsRefresh(){
+  tsRefreshTeeth();
+  const has=tsSelTeeth.size>0;
+  const sec2=document.getElementById('tsSec2');
+  if(sec2) sec2.style.display=has?'':'none';
+  if(has) tsBuildProdGrid();
+  tsBuildCfgRows();
+  tsCalcAndShowPrice();
+}
+
+function tsSelectUpper(){
+  [18,17,16,15,14,13,12,11,21,22,23,24,25,26,27,28].forEach(n=>{
+    if(!tsSelTeeth.has(n)){tsSelTeeth.add(n);tsCfg[n]={prods:new Set(tsDefaultProds),isPontic:false,isCNC:false,cncOpts:new Set(),isRemake:false};}
+  });tsRefresh();
+}
+function tsSelectLower(){
+  [48,47,46,45,44,43,42,41,31,32,33,34,35,36,37,38].forEach(n=>{
+    if(!tsSelTeeth.has(n)){tsSelTeeth.add(n);tsCfg[n]={prods:new Set(tsDefaultProds),isPontic:false,isCNC:false,cncOpts:new Set(),isRemake:false};}
+  });tsRefresh();
+}
+function tsClearAll(){tsSelTeeth.clear();tsDefaultProds.clear();tsCfg={};tsRefresh();}
+
+// 기존 함수 호환 — openCaseModal에서 호출
+function renderToothSelector(selectedTeeth=[]){
+  // 새 선택기 초기화 (수정 시 기존 데이터 전달)
+  initToothSelectorV2(null);
+  // 기존 치아 번호가 있으면 선택
+  if(selectedTeeth && selectedTeeth.length){
+    selectedTeeth.forEach(n=>{
+      const num=parseInt(n);
+      if(!isNaN(num)){
+        tsSelTeeth.add(num);
+        tsCfg[num]={prods:new Set(),isPontic:false,isCNC:false,cncOpts:new Set(),isRemake:false};
+      }
+    });
+    tsRefresh();
+  }
 }
 
 function parseToothNumbers(toothStr){
   if(!toothStr)return[];
   return toothStr.split(',').map(t=>t.trim()).filter(t=>t);
 }
-
 function formatToothNumbers(toothData){
   if(!toothData)return'-';
   const arr=Array.isArray(toothData)?toothData:String(toothData).split(',').map(t=>t.trim()).filter(t=>t);
@@ -2380,57 +2799,74 @@ function updateCasePrice(){
 async function saveCaseModal(editId){
   const clinicId = document.getElementById('cm_clinic').value;
   const patient = document.getElementById('cm_patient').value.trim();
-  const productId = document.getElementById('cm_product').value;
   const toothValue = document.getElementById('cm_tooth').value;
-  
-  if(!clinicId||!patient||!productId){showToast('필수 항목을 입력하세요.','error');return;}
-  
-  // 입력값 검증 (XSS 방지)
-  if(patient.length > 50) {showToast('患者명은 50자 이하여야 합니다.','error');return;}
-  if(/[<>\"\'&]/.test(patient)) {showToast('患者명에 특수문자는 사용할 수 없습니다.','error');return;}
-  
+  const toothConfigRaw = document.getElementById('cm_tooth_config').value;
+
+  if(!clinicId||!patient){showToast('필수 항목을 입력하세요.','error');return;}
+  if(patient.length > 50) {showToast('환자명은 50자 이하여야 합니다.','error');return;}
+  if(/[<>\"\'&]/.test(patient)) {showToast('환자명에 특수문자는 사용할 수 없습니다.','error');return;}
+  if(!toothValue){showToast('치아를 하나 이상 선택하세요.','error');return;}
+
   const clinic = CLINICS.find(c=>c.id===clinicId);
-  const product = PRODUCTS.find(p=>p.id===productId);
-  const isRemake = document.getElementById('cm_remake')?.checked || false;
-  const unitFinal = isRemake ? 0 : getClinicPrice(clinic, product);
-  
-  const toothNumbers = toothValue ? toothValue.split(',').filter(t=>t) : [];
-  const toothCount = toothNumbers.length || 1;
-  const finalPrice = isRemake ? 0 : unitFinal * toothCount;
-  
+
+  // 새 치식 설정 파싱
+  let toothConfig={teeth:[],totalPrice:0,defaultProds:[]};
+  try{ if(toothConfigRaw) toothConfig=JSON.parse(toothConfigRaw); }catch(e){}
+
+  const toothNumbers = toothValue.split(',').filter(t=>t);
+  const toothCount = toothNumbers.length||1;
+
+  // 전체 리메이크 여부 (모든 치아가 리메이크)
+  const isRemake = toothConfig.teeth.length>0 && toothConfig.teeth.every(t=>t.isRemake);
+  const totalFinal = isRemake ? 0 : (toothConfig.totalPrice||0);
+
+  // 대표 보철명 (defaultProds 기준, 없으면 치아별 첫 번째)
+  const mainProdIds = toothConfig.defaultProds?.length
+    ? toothConfig.defaultProds
+    : [...new Set(toothConfig.teeth.flatMap(t=>t.prods||[]))];
+  const mainProd = PRODUCTS.find(p=>mainProdIds.includes(p.id));
+
   if(editId){
     const c=CASES.find(x=>x.id===editId);
+    if(!c) return;
     const updPhotos = await uploadPendingPhotos(c.id);
     Object.assign(c,{
-      clinic_id:clinicId,clinic_name:clinic.name,patient_name:patient,
-      product_id:productId,product_name:product.name,
-      tooth_number:toothValue,tooth_numbers:toothNumbers,
+      clinic_id:clinicId, clinic_name:clinic.name,
+      patient_name:patient,
+      product_id:mainProd?.id||'', product_name:mainProd?.name||'복합보철',
+      tooth_number:toothValue, tooth_numbers:toothNumbers,
       tooth_count:toothCount,
+      tooth_config:toothConfig,
       type:document.getElementById('cm_type').value,
       ship_date:document.getElementById('cm_ship').value,
       memo:document.getElementById('cm_memo').value,
-      price:unitFinal,discount_rate:isRemake ? 0 : clinic.discount_rate,final_price:finalPrice,
+      price:totalFinal, discount_rate:isRemake?0:(clinic.discount_rate||0),
+      final_price:totalFinal,
       is_remake:isRemake,
       photos:updPhotos
     });
     showToast('케이스가 수정되었습니다.','success');
   } else {
     const id=`case${Date.now()}`;
-    const maxNum = CASES.reduce((max, c) => {
-      const n = parseInt((c.case_number||'').split('-')[2]) || 0;
-      return n > max ? n : max;
-    }, 0);
-    const year = new Date().getFullYear();
-    const num = `ERD-${year}-${String(maxNum+1).padStart(4,'0')}`;
+    const maxNum = CASES.reduce((max,c)=>{
+      const n=parseInt((c.case_number||'').split('-')[2])||0;
+      return n>max?n:max;
+    },0);
+    const year=new Date().getFullYear();
+    const num=`ERD-${year}-${String(maxNum+1).padStart(4,'0')}`;
     const newPhotos = await uploadPendingPhotos(id);
     CASES.unshift({
-      id,case_number:num,clinic_id:clinicId,clinic_name:clinic.name,patient_name:patient,
-      product_id:productId,product_name:product.name,
-      tooth_number:toothValue,tooth_numbers:toothNumbers,
+      id, case_number:num,
+      clinic_id:clinicId, clinic_name:clinic.name,
+      patient_name:patient,
+      product_id:mainProd?.id||'', product_name:mainProd?.name||'복합보철',
+      tooth_number:toothValue, tooth_numbers:toothNumbers,
       tooth_count:toothCount,
+      tooth_config:toothConfig,
       type:document.getElementById('cm_type').value,
-      price:unitFinal,discount_rate:clinic.discount_rate,final_price:finalPrice,
-      status:'working',is_remake:isRemake,
+      price:totalFinal, discount_rate:clinic.discount_rate||0,
+      final_price:totalFinal,
+      status:'working', is_remake:isRemake,
       receive_date:new Date().toISOString().slice(0,10),
       ship_date:document.getElementById('cm_ship').value,
       memo:document.getElementById('cm_memo').value,
@@ -2438,10 +2874,10 @@ async function saveCaseModal(editId){
       history:[{status:'working',changed_at:new Date().toISOString(),changed_by:currentUser.name}],
       created_at:new Date().toISOString()
     });
-    window._casePhotos = [];
+    window._casePhotos=[];
     showToast('케이스가 등록되었습니다.','success');
   }
-  await autoSave('cases', CASES);
+  await autoSave('cases',CASES);
   closeModal();renderDashboard();
 }
 function exportCases(){
@@ -4337,11 +4773,11 @@ async function deleteUser(userId){
 //  MODAL & CONFIRM HELPERS
 // ══════════════════════════════════════════════════
 
-function openModal(title,body,footer='',lg=false){
+function openModal(title,body,footer='',lg=false,xl=false){
   document.getElementById('modalTitle').innerHTML=title;
   document.getElementById('modalBody').innerHTML=body;
   document.getElementById('modalFooter').innerHTML=footer;
-  document.getElementById('modalBox').className='modal'+(lg?' modal-lg':'');
+  document.getElementById('modalBox').className='modal'+(xl?' modal-xl':lg?' modal-lg':'');
   document.getElementById('modalOverlay').classList.add('open');
 }
 function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
@@ -4705,6 +5141,375 @@ document.getElementById('loginBtn').addEventListener('click', function(e) {
 document.getElementById('loginPw').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') doLogin();
 });
+
+// ══════════════════════════════════════════════════
+//  D-DAY 기능
+// ══════════════════════════════════════════════════
+
+function getDdayText(c){
+  if(c.status==='done') return '완료';
+  if(!c.ship_date) return '';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const ship  = new Date(c.ship_date); ship.setHours(0,0,0,0);
+  const diff  = Math.round((ship - today) / 86400000);
+  if(diff < 0)  return `D+${Math.abs(diff)} 지연⚠️`;
+  if(diff === 0) return 'D-day 오늘!';
+  return `D-${diff}`;
+}
+function getDdayColor(c){
+  if(c.status==='done') return 'var(--green)';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const ship  = new Date(c.ship_date); ship.setHours(0,0,0,0);
+  const diff  = Math.round((ship - today) / 86400000);
+  if(diff < 0)  return 'var(--red)';
+  if(diff === 0) return 'var(--orange)';
+  if(diff <= 2) return 'var(--yellow)';
+  return 'var(--green)';
+}
+
+// ══════════════════════════════════════════════════
+//  케이스 댓글 기능
+// ══════════════════════════════════════════════════
+
+// 각 케이스의 댓글은 케이스 데이터에 comments 배열로 저장
+function renderCommentList(caseId){
+  const c = CASES.find(x=>x.id===caseId);
+  if(!c || !c.comments || !c.comments.length){
+    return `<div style="font-size:12px;color:var(--text3);padding:8px 0;">아직 댓글이 없습니다.</div>`;
+  }
+  return c.comments.map(cm=>`
+    <div style="background:${cm.from_role==='admin'?'var(--primary-l)':'var(--sky-l)'};
+      border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <strong style="color:${cm.from_role==='admin'?'var(--primary)':'var(--sky)'};">
+          ${cm.from_role==='admin'?'🏭 기공소':'🏥 '+cm.from_name}
+        </strong>
+        <span style="color:var(--text3);font-size:11px;">${new Date(cm.created_at).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+      </div>
+      <div style="line-height:1.6;white-space:pre-wrap;">${cm.content}</div>
+    </div>
+  `).join('');
+}
+
+async function addComment(caseId){
+  const input = document.getElementById(`commentInput_${caseId}`);
+  const text = input?.value.trim();
+  if(!text){ showToast('댓글 내용을 입력하세요.','warn'); return; }
+  const c = CASES.find(x=>x.id===caseId);
+  if(!c) return;
+  if(!c.comments) c.comments = [];
+  c.comments.push({
+    id: `cmt_${Date.now()}`,
+    from_role: currentUser.role,
+    from_name: currentUser.name,
+    content: text,
+    created_at: new Date().toISOString()
+  });
+  await autoSave('cases', CASES);
+  input.value = '';
+  // 댓글 목록 새로고침
+  const listEl = document.getElementById('commentList');
+  if(listEl) listEl.innerHTML = renderCommentList(caseId);
+  showToast('댓글이 등록됐습니다.','success');
+}
+
+// ══════════════════════════════════════════════════
+//  쪽지 기능
+// ══════════════════════════════════════════════════
+
+function saveMessages(){
+  localStorage.setItem(STORAGE_KEY+'_messages', JSON.stringify(MESSAGES));
+}
+
+function sendAutoMessage(caseObj, content){
+  MESSAGES.push({
+    id: `msg_${Date.now()}`,
+    from_user: 'admin',
+    from_name: '이룸덴탈랩',
+    to_clinic_id: caseObj.clinic_id,
+    case_id: caseObj.id,
+    case_number: caseObj.case_number,
+    content,
+    is_read: false,
+    created_at: new Date().toISOString()
+  });
+  saveMessages();
+  updateMsgBadge();
+}
+
+function updateMsgBadge(){
+  const badge = document.getElementById('msgBadge');
+  if(!badge) return;
+  const myId = currentUser.clinic_id || 'admin';
+  const unread = MESSAGES.filter(m=>{
+    if(currentUser.role==='admin') return false; // 관리자는 배지 없음
+    return m.to_clinic_id === myId && !m.is_read;
+  }).length;
+  badge.style.display = unread > 0 ? '' : 'none';
+  badge.textContent = unread;
+}
+
+function renderMessages(){
+  const isAdmin = currentUser.role==='admin';
+  const myClinicId = currentUser.clinic_id;
+  const c = document.getElementById('pageContent');
+
+  // 관리자: 전체 쪽지 + 보내기 / 치과: 내 쪽지만
+  const myMessages = isAdmin
+    ? [...MESSAGES].reverse()
+    : MESSAGES.filter(m=>m.to_clinic_id===myClinicId).reverse();
+
+  // 읽음 처리
+  if(!isAdmin){
+    myMessages.forEach(m=>{ m.is_read=true; });
+    saveMessages();
+    updateMsgBadge();
+  }
+
+  c.innerHTML=`
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <div class="card-title">✉️ 쪽지함 ${!isAdmin?`<span style="font-size:12px;color:var(--text3);">(${currentUser.name} 수신함)</span>`:''}</div>
+      ${isAdmin?`<button class="btn btn-primary btn-sm" onclick="openSendMessageModal()">✉️ 쪽지 보내기</button>`:''}
+    </div>
+    <div class="card-body" style="padding-bottom:0;">
+      ${myMessages.length===0?`<div style="text-align:center;padding:40px;color:var(--text3);">📭 쪽지가 없습니다.</div>`:''}
+      ${myMessages.map(m=>`
+        <div style="padding:14px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;">
+          <div style="font-size:22px;flex-shrink:0;">${m.is_read||isAdmin?'📨':'📩'}</div>
+          <div style="flex:1;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:700;color:var(--text2);">
+                ${isAdmin?`→ ${CLINICS.find(cl=>cl.id===m.to_clinic_id)?.name||m.to_clinic_id}`:`${m.from_name}`}
+                ${m.case_number?`<span style="font-size:11px;color:var(--primary);margin-left:6px;">[${m.case_number}]</span>`:''}
+              </span>
+              <span style="font-size:11px;color:var(--text3);">${new Date(m.created_at).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+            </div>
+            <div style="font-size:13px;line-height:1.6;color:var(--text);">${m.content}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function openSendMessageModal(){
+  openModal('쪽지 보내기',`
+    <div class="form-group">
+      <label>받는 거래처</label>
+      <select class="select" id="msg_clinic">
+        <option value="">전체 치과</option>
+        ${CLINICS.filter(cl=>cl.is_active).map(cl=>`<option value="${cl.id}">${cl.name}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-group">
+      <label>케이스 번호 (선택)</label>
+      <input class="input" id="msg_case" placeholder="예: ERD-2026-0001">
+    </div>
+    <div class="form-group">
+      <label>내용 *</label>
+      <textarea class="input" id="msg_content" rows="4" placeholder="쪽지 내용을 입력하세요..."></textarea>
+    </div>
+  `,`<button class="btn btn-secondary" onclick="closeModal()">취소</button>
+     <button class="btn btn-primary" onclick="sendManualMessage()">✉️ 보내기</button>`);
+}
+
+async function sendManualMessage(){
+  const clinicId = document.getElementById('msg_clinic').value;
+  const caseNum  = document.getElementById('msg_case').value.trim();
+  const content  = document.getElementById('msg_content').value.trim();
+  if(!content){ showToast('내용을 입력하세요.','warn'); return; }
+
+  const targets = clinicId
+    ? [clinicId]
+    : CLINICS.filter(cl=>cl.is_active).map(cl=>cl.id);
+
+  const relCase = caseNum ? CASES.find(c=>c.case_number===caseNum) : null;
+
+  targets.forEach(tid=>{
+    MESSAGES.push({
+      id: `msg_${Date.now()}_${tid}`,
+      from_user: 'admin',
+      from_name: '이룸덴탈랩',
+      to_clinic_id: tid,
+      case_id: relCase?.id||'',
+      case_number: relCase?.case_number||caseNum||'',
+      content,
+      is_read: false,
+      created_at: new Date().toISOString()
+    });
+  });
+  saveMessages();
+  closeModal();
+  navigate('messages');
+  showToast(`쪽지를 ${targets.length}곳에 보냈습니다.`,'success');
+}
+
+// ══════════════════════════════════════════════════
+//  청구서 PDF 기능
+// ══════════════════════════════════════════════════
+
+function renderInvoicePage(){
+  const c = document.getElementById('pageContent');
+  const months = [];
+  const now = new Date();
+  for(let i=0;i<6;i++){
+    const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    months.push(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);
+  }
+
+  c.innerHTML=`
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">🧾 청구서 PDF 발행</div>
+    </div>
+    <div class="card-body">
+      <div class="form-row" style="margin-bottom:16px;">
+        <div class="form-group">
+          <label>거래처 선택</label>
+          <select class="select" id="inv_clinic">
+            <option value="">전체 거래처</option>
+            ${CLINICS.filter(cl=>cl.is_active).map(cl=>`<option value="${cl.id}">${cl.name}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>기간 (월)</label>
+          <select class="select" id="inv_month">
+            ${months.map(m=>`<option value="${m}">${m}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div id="inv_preview" style="margin-bottom:16px;"></div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-secondary" onclick="previewInvoice()">🔍 미리보기</button>
+        <button class="btn btn-primary" onclick="printInvoice()">🖨️ PDF 출력</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function getInvoiceCases(){
+  const clinicId = document.getElementById('inv_clinic')?.value||'';
+  const month    = document.getElementById('inv_month')?.value||'';
+  let cases = CASES.filter(c=>c.status==='done');
+  if(clinicId) cases = cases.filter(c=>c.clinic_id===clinicId);
+  if(month)    cases = cases.filter(c=>(c.receive_date||'').startsWith(month));
+  return cases;
+}
+
+function previewInvoice(){
+  const cases = getInvoiceCases();
+  const total = cases.reduce((s,c)=>s+(c.final_price||0),0);
+  const el = document.getElementById('inv_preview');
+  if(!cases.length){ el.innerHTML=`<div style="color:var(--text3);font-size:13px;">해당 기간에 완료된 케이스가 없습니다.</div>`; return; }
+  el.innerHTML=`
+  <div style="background:var(--slate-l);border-radius:10px;padding:16px;font-size:13px;">
+    <div style="font-weight:700;margin-bottom:10px;">청구 내역 미리보기 — ${cases.length}건</div>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead><tr style="border-bottom:1px solid var(--border);">
+        <th style="text-align:left;padding:6px 8px;font-size:12px;color:var(--text2);">케이스</th>
+        <th style="text-align:left;padding:6px 8px;font-size:12px;color:var(--text2);">환자</th>
+        <th style="text-align:left;padding:6px 8px;font-size:12px;color:var(--text2);">보철</th>
+        <th style="text-align:right;padding:6px 8px;font-size:12px;color:var(--text2);">금액</th>
+      </tr></thead>
+      <tbody>
+      ${cases.map(c=>`
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:6px 8px;font-size:11px;color:var(--text3);">${c.case_number}</td>
+          <td style="padding:6px 8px;">${c.patient_name}</td>
+          <td style="padding:6px 8px;">${c.product_name}</td>
+          <td style="padding:6px 8px;text-align:right;font-weight:600;">${(c.final_price||0).toLocaleString()}원</td>
+        </tr>`).join('')}
+      </tbody>
+      <tfoot><tr>
+        <td colspan="3" style="padding:10px 8px;font-weight:700;font-size:14px;">합계</td>
+        <td style="padding:10px 8px;text-align:right;font-weight:700;font-size:16px;color:var(--primary);">${total.toLocaleString()}원</td>
+      </tr></tfoot>
+    </table>
+  </div>`;
+}
+
+function printInvoice(){
+  const cases   = getInvoiceCases();
+  const month   = document.getElementById('inv_month')?.value||'';
+  const clinicId= document.getElementById('inv_clinic')?.value||'';
+  const clinic  = CLINICS.find(cl=>cl.id===clinicId);
+  const total   = cases.reduce((s,c)=>s+(c.final_price||0),0);
+  const today   = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric'});
+
+  if(!cases.length){ showToast('청구할 케이스가 없습니다.','warn'); return; }
+
+  const win = window.open('','_blank','width=900,height=700');
+  win.document.write(`<!DOCTYPE html><html lang="ko"><head>
+<meta charset="UTF-8">
+<title>청구서 — ${month}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR',sans-serif;background:#fff;color:#111;font-size:12px;}
+.page{width:210mm;min-height:297mm;margin:0 auto;padding:16mm 18mm;}
+.header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #1a1a2e;padding-bottom:10px;margin-bottom:16px;}
+.lab-name{font-size:22px;font-weight:900;color:#1a1a2e;}
+.lab-name span{color:#2563eb;}
+.doc-title{font-size:28px;font-weight:900;letter-spacing:3px;color:#1a1a2e;}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;padding:12px;background:#f8fafc;border-radius:8px;}
+.meta-item{font-size:12px;}<br>.meta-label{color:#888;margin-bottom:2px;}
+.meta-val{font-weight:700;font-size:14px;}
+table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+th{background:#1a1a2e;color:#fff;padding:8px 12px;text-align:left;font-size:11px;font-weight:600;}
+td{padding:8px 12px;border-bottom:1px solid #e5e7eb;font-size:12px;}
+tr:nth-child(even) td{background:#f9fafb;}
+.total-row td{border-top:2px solid #1a1a2e;font-weight:700;font-size:15px;background:#eff6ff;}
+.footer{margin-top:30px;text-align:center;font-size:11px;color:#888;border-top:1px solid #e5e7eb;padding-top:12px;}
+.stamp{border:2px solid #1a1a2e;border-radius:50%;width:60px;height:60px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:20px;}
+@media print{body{padding:0;}.page{padding:10mm 12mm;}@page{size:A4;margin:0;}}
+</style></head><body>
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="lab-name">${LAB_INFO.name||'이룸덴탈랩'}</div>
+      <div style="font-size:11px;color:#888;margin-top:2px;">${LAB_INFO.phone||''} ${LAB_INFO.email||''}</div>
+    </div>
+    <div class="doc-title">청 구 서</div>
+  </div>
+  <div class="meta">
+    <div class="meta-item"><div class="meta-label">청구 대상</div><div class="meta-val">${clinic?clinic.name:'전체 거래처'}</div></div>
+    <div class="meta-item"><div class="meta-label">청구 기간</div><div class="meta-val">${month}</div></div>
+    <div class="meta-item"><div class="meta-label">발행일</div><div class="meta-val">${today}</div></div>
+    <div class="meta-item"><div class="meta-label">총 케이스</div><div class="meta-val">${cases.length}건</div></div>
+  </div>
+  <table>
+    <thead><tr>
+      <th>케이스 번호</th><th>환자명</th><th>보철명</th><th>치아</th><th>접수일</th><th style="text-align:right;">청구금액</th>
+    </tr></thead>
+    <tbody>
+    ${cases.map(c=>`<tr>
+      <td style="font-family:monospace;font-size:11px;">${c.case_number}</td>
+      <td>${c.patient_name}</td>
+      <td>${c.product_name}</td>
+      <td style="font-family:monospace;">#${Array.isArray(c.tooth_numbers)?c.tooth_numbers.join(','):c.tooth_number||'-'}</td>
+      <td>${c.receive_date||'-'}</td>
+      <td style="text-align:right;font-weight:600;">${(c.final_price||0).toLocaleString()}원</td>
+    </tr>`).join('')}
+    </tbody>
+    <tfoot><tr class="total-row">
+      <td colspan="5" style="text-align:right;">합계 금액</td>
+      <td style="text-align:right;color:#1a1a2e;font-size:18px;">${total.toLocaleString()}원</td>
+    </tr></tfoot>
+  </table>
+  <div style="margin-top:20px;font-size:12px;color:#555;line-height:1.8;">
+    위 금액을 청구드립니다. 감사합니다.<br>
+    ${LAB_INFO.bank?`입금계좌: ${LAB_INFO.bank}`:''}
+  </div>
+  <div class="footer">
+    ${LAB_INFO.name||'이룸덴탈랩'} · ${LAB_INFO.address||''}
+    <div class="stamp">인</div>
+  </div>
+</div>
+<script>window.onload=()=>{window.print();}<\/script>
+</body></html>`);
+  win.document.close();
+}
 
 </script>
 </body>
