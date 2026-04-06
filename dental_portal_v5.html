@@ -1011,13 +1011,8 @@ const STORAGE_KEY = 'dental_portal_v5';
 let SUPABASE_URL = '';
 let SUPABASE_ANON_KEY = '';
 async function loadConfig(){
-  try{
-    const r=await fetch('/api/config');
-    if(!r.ok) throw new Error('config error');
-    const cfg=await r.json();
-    SUPABASE_URL=cfg.supabaseUrl||'';
-    SUPABASE_ANON_KEY=cfg.supabaseKey||'';
-  }catch(e){ console.warn('설정 로드 실패 — 로컬 모드:', e.message); }
+  SUPABASE_URL = 'https://cslygetvchxklyswqvrk.supabase.co';
+  SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzbHlnZXR2Y2h4a2x5c3dxdnJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1OTUxMzUsImV4cCI6MjA5MDE3MTEzNX0.r8nrsb67tsceM8ww54hVosngva3senKYBPyaFJTfR0Q';
 }
 
 // ── 쪽지 데이터 ──
