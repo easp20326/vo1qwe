@@ -1469,7 +1469,7 @@ async function doLogin(){
       role: userRow.role,
       clinic_id: userRow.clinic_id
     };
-    initApp();
+    await initApp();
     
   } catch (err) {
     btn.classList.remove('loading');
@@ -1528,9 +1528,17 @@ async function doLogout(){
   window.location.reload();
 }
 
-function initApp(){
+async function initApp(){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').classList.add('logged-in');
+  
+  // ⭐ 로그인 후 데이터 다시 로딩 (RLS 통과 위해)
+  try {
+    await initData();
+  } catch (e) {
+    console.warn('로그인 후 데이터 재로딩 중 오류:', e);
+  }
+  
   document.getElementById('sidebarName').textContent=currentUser.name;
   showNoticeBanner();
   // 거래처 메모 메뉴 - 치과 사용자는 공개 메모 있을 때만 표시
